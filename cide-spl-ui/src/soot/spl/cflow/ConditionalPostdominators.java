@@ -34,13 +34,14 @@ public class ConditionalPostdominators<T,N extends Host> {
 		
 		System.err.println(unitToPostDomToConstraint);
 		
-		boolean changed = false;		
+		boolean changed;		
 		do {
+			changed = false;
 			for(N n: cfg) {
 				if(cfg.getTails().contains(n)) continue;
 				for(N x: cfg) {
 					if(n==x) {
-						changed = updateConstraint(n, x, Constraint.<T>trueValue());
+						changed |= updateConstraint(n, x, Constraint.<T>trueValue());
 					} else {
 						//FIXME compute different constraints for target and fallthrough
 						Constraint<T> conjunction = Constraint.<T>trueValue();
@@ -50,7 +51,7 @@ public class ConditionalPostdominators<T,N extends Host> {
 							Constraint<T> conjunct = c.implies(pdomSX);
 							conjunction = conjunction.and(conjunct);
 						}
-						changed = updateConstraint(n, x, conjunction);							
+						changed |= updateConstraint(n, x, conjunction);							
 					}
 				}
 			}
