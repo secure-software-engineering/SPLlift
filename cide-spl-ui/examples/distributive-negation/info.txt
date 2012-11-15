@@ -1,0 +1,6 @@
+In this example, the colored statement is colored with two features,
+CP_Bytes und CP_Time. This means that there will be a tainted flow
+if CP_Bytes *OR* CP_Time are disabled. In other words, we have to
+take into account that...
+
+!(CP_Bytes && CP_Time) == !CP_Bytes || ! CP_Time 
