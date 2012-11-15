@@ -4,6 +4,8 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Map;
 
+import net.sf.javabdd.BDDFactory;
+
 import org.eclipse.jdt.core.IJavaProject;
 
 import soot.Body;
@@ -20,6 +22,8 @@ import soot.jimple.interproc.ifds.IFDSTabulationProblem;
 import soot.jimple.interproc.ifds.template.JimpleBasedInterproceduralCFG;
 import soot.jimple.toolkits.callgraph.ReachableMethods;
 import soot.options.Options;
+import soot.spl.cflow.ConditionalPostdominators;
+import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.util.queue.QueueReader;
 import br.ufal.cideei.features.CIDEFeatureExtracterFactory;
 import br.ufal.cideei.features.IFeatureExtracter;
@@ -59,39 +63,49 @@ public class Main {
 								bodyTransformer.transform(b);
 							}
 						}
+						
+						
+						Constraint.FACTORY = BDDFactory.init(100000, 100000);
+						Constraint.FACTORY.setVarNum(100); //some number high enough to accommodate the max. number of features; ideally we should compute this number 
+
+						Body mmBody = Scene.v().getMainMethod().getActiveBody();
+						System.err.println(mmBody);
+						ConditionalPostdominators<String,Unit> cpda = new ConditionalPostdominators<String,Unit>(new ExceptionalUnitGraph(mmBody));
+						cpda.print();
+						
 					
-						final Multimap<SootMethod,Local> initialSeeds = HashMultimap.create();
-						initialSeeds.put(Scene.v().getMainMethod(), Scene.v().getMainMethod().getActiveBody().getLocals().getFirst());
-												
-//						IFDSTabulationProblem<Unit,Value,SootMethod> problem = new soot.jimple.interproc.ifds.problems.IFDSUninitializedVariables();
+//						final Multimap<SootMethod,Local> initialSeeds = HashMultimap.create();
+//						initialSeeds.put(Scene.v().getMainMethod(), Scene.v().getMainMethod().getActiveBody().getLocals().getFirst());
+//												
+////						IFDSTabulationProblem<Unit,Value,SootMethod> problem = new soot.jimple.interproc.ifds.problems.IFDSUninitializedVariables();
+////						
+////						
+////						SPLIFDSSolver<Value,SootMethod> solver = new SPLIFDSSolver<Value,SootMethod>(problem,alloyFilePath,numFeaturesPresent);	
+////						long before = System.currentTimeMillis();
+////						System.err.println("Starting solver...");
+////						solver.solve();
+////						System.err.println("Solving took: "+(System.currentTimeMillis()-before));
+////						System.err.println(Scene.v().getMainMethod().getActiveBody());
+////						Unit ret = Scene.v().getMainMethod().getActiveBody().getUnits().getLast();
+////						for(Entry<Value, Constraint<String>> l: solver.resultsAt(ret).entrySet()) {
+////							System.err.print(l.getKey());
+////							System.err.print("=");
+////							System.err.println(l.getValue().toString(bodyTransformer.getFeatureNumberer()));
+////						}
+////						System.err.println();
+////						System.err.println(Constraint.FACTORY.getCacheStats());
 //						
+////						IFDSTabulationProblem<Unit, ?, SootMethod> problem = new soot.jimple.interproc.ifds.problems.IFDSReachingDefinitions();
+//						IFDSTabulationProblem<Unit, ?, SootMethod, ?> problem;
+//						try {
+//							Class<IFDSTabulationProblem<Unit, ?, SootMethod, ?>> clazz = (Class<IFDSTabulationProblem<Unit, ?, SootMethod, ?>>) Class.forName("soot.jimple.interproc.ifds.problems."+arg.analysisClassName);
+//							Constructor<?> constructor = clazz.getDeclaredConstructors()[0];
+//							problem = (IFDSTabulationProblem<Unit, ?, SootMethod, ?>) constructor.newInstance( new JimpleBasedInterproceduralCFG() );
+//						} catch (Exception e) {
+//							throw new RuntimeException(e);
+//						} 
 //						
-//						SPLIFDSSolver<Value,SootMethod> solver = new SPLIFDSSolver<Value,SootMethod>(problem,alloyFilePath,numFeaturesPresent);	
-//						long before = System.currentTimeMillis();
-//						System.err.println("Starting solver...");
-//						solver.solve();
-//						System.err.println("Solving took: "+(System.currentTimeMillis()-before));
-//						System.err.println(Scene.v().getMainMethod().getActiveBody());
-//						Unit ret = Scene.v().getMainMethod().getActiveBody().getUnits().getLast();
-//						for(Entry<Value, Constraint<String>> l: solver.resultsAt(ret).entrySet()) {
-//							System.err.print(l.getKey());
-//							System.err.print("=");
-//							System.err.println(l.getValue().toString(bodyTransformer.getFeatureNumberer()));
-//						}
-//						System.err.println();
-//						System.err.println(Constraint.FACTORY.getCacheStats());
-						
-//						IFDSTabulationProblem<Unit, ?, SootMethod> problem = new soot.jimple.interproc.ifds.problems.IFDSReachingDefinitions();
-						IFDSTabulationProblem<Unit, ?, SootMethod, ?> problem;
-						try {
-							Class<IFDSTabulationProblem<Unit, ?, SootMethod, ?>> clazz = (Class<IFDSTabulationProblem<Unit, ?, SootMethod, ?>>) Class.forName("soot.jimple.interproc.ifds.problems."+arg.analysisClassName);
-							Constructor<?> constructor = clazz.getDeclaredConstructors()[0];
-							problem = (IFDSTabulationProblem<Unit, ?, SootMethod, ?>) constructor.newInstance( new JimpleBasedInterproceduralCFG() );
-						} catch (Exception e) {
-							throw new RuntimeException(e);
-						} 
-						
-						PerformanceTestDriver.perfTest(bodyTransformer, problem, javaProject, arg);
+//						PerformanceTestDriver.perfTest(bodyTransformer, problem, javaProject, arg);
 					}
 
 				}));
