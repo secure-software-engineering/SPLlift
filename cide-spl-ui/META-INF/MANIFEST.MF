@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CIDE EI
 Bundle-SymbolicName: br.ufal.cideie; singleton:=true
-Bundle-Version: 1.0.1
+Bundle-Version: 1.0.1.qualifier
 Bundle-Activator: br.ufal.cideei.Activator
 Bundle-Vendor: br.ufal
 Require-Bundle: org.eclipse.ui;visibility:=reexport,

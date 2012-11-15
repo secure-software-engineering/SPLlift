@@ -34,6 +34,14 @@ public class Constraint<T> implements Cloneable {
 			//false || other == other
 			return other;
 		}		
+		
+		public Constraint implies(Constraint other) {
+			return TRUE;
+		}
+		
+		public Constraint not() {
+			return TRUE;
+		}
 
 		public String toString() {
 			return "false";
@@ -74,6 +82,14 @@ public class Constraint<T> implements Cloneable {
 		public Constraint or(Constraint other) {
 			//true || other == true
 			return this;
+		}
+		
+		public Constraint implies(Constraint other) {
+			return other;
+		}
+		
+		public Constraint not() {
+			return FALSE;
 		}
 
 		public String toString() {
@@ -189,10 +205,34 @@ public class Constraint<T> implements Cloneable {
 			BDD disjunction = bdd.or(other.bdd);
 			if(disjunction.isOne()) 
 				return trueValue();
+			else if(disjunction.isZero())
+				return falseValue();
 			else
 				return new Constraint<T>(disjunction);
 		}
 	}
+	
+	/**
+	 * Computes the constraint representing this IMPLIES other.
+	 */
+	public Constraint<T> implies(Constraint<T> other) {
+		synchronized (FACTORY) {
+			if(other==trueValue()) return trueValue();
+			if(other==falseValue()) return not();
+			
+			BDD implication = bdd.imp(other.bdd);
+			if(implication.isOne()) 
+				return trueValue();
+			else if(implication.isZero())
+				return falseValue();
+			else
+				return new Constraint<T>(implication);
+		}
+	}
+
+	public Constraint<T> not() {
+		return new Constraint<T>(this.bdd.not());
+	}	
 	
 	/**
 	 * Computes the constraint representing this AND other.
