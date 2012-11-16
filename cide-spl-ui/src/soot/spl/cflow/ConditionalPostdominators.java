@@ -101,5 +101,9 @@ public class ConditionalPostdominators<T,N extends Host> {
 		return super.toString();
 	}
 	
+	public DirectedGraph<N> getControlFlowGraph() {
+		return cfg;
+	}
+	
 	
 }

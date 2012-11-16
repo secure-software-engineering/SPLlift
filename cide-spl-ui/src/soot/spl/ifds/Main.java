@@ -22,6 +22,7 @@ import soot.jimple.interproc.ifds.IFDSTabulationProblem;
 import soot.jimple.interproc.ifds.template.JimpleBasedInterproceduralCFG;
 import soot.jimple.toolkits.callgraph.ReachableMethods;
 import soot.options.Options;
+import soot.spl.cflow.ConditionalImmediatePostDominators;
 import soot.spl.cflow.ConditionalPostdominators;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.util.queue.QueueReader;
@@ -73,6 +74,7 @@ public class Main {
 						ConditionalPostdominators<String,Unit> cpda = new ConditionalPostdominators<String,Unit>(new ExceptionalUnitGraph(mmBody));
 						cpda.print();
 						
+						ConditionalImmediatePostDominators<String, Unit> cipda = new ConditionalImmediatePostDominators<String, Unit>(cpda);						
 					
 //						final Multimap<SootMethod,Local> initialSeeds = HashMultimap.create();
 //						initialSeeds.put(Scene.v().getMainMethod(), Scene.v().getMainMethod().getActiveBody().getLocals().getFirst());
