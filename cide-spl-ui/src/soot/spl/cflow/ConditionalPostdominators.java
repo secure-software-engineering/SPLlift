@@ -44,14 +44,16 @@ public class ConditionalPostdominators<T,N extends Host> {
 						changed |= updateConstraint(n, x, Constraint.<T>trueValue());
 					} else {
 						//FIXME compute different constraints for target and fallthrough
+						Constraint<T> disjunction = Constraint.<T>falseValue();
 						Constraint<T> conjunction = Constraint.<T>trueValue();
 						for(N s: cfg.getSuccsOf(n)) {
 							Constraint<T> c = constraintOfEdge(s);
+							disjunction = disjunction.or(c);
 							Constraint<T> pdomSX = unitToPostDomToConstraint.get(s).get(x);
 							Constraint<T> conjunct = c.implies(pdomSX);
 							conjunction = conjunction.and(conjunct);
 						}
-						changed |= updateConstraint(n, x, conjunction);							
+						changed |= updateConstraint(n, x, conjunction.and(disjunction));							
 					}
 				}
 			}
@@ -62,7 +64,7 @@ public class ConditionalPostdominators<T,N extends Host> {
 		Map<N, Constraint<T>> map = unitToPostDomToConstraint.get(n);
 		Constraint<T> prev = map.put(x, val);
 		System.err.println("update: "+n+" "+x+" "+val);
-		return prev!=val;
+		return !prev.equals(val);
 	}
 
 	private Constraint<T> constraintOfEdge(N u) {
