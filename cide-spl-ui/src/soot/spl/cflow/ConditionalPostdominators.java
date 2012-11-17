@@ -11,17 +11,18 @@ import br.ufal.cideei.soot.instrument.FeatureTag;
 
 public class ConditionalPostdominators<T,N extends Host> {
 	
-	private final DirectedGraph<N> cfg;
+	protected final DirectedGraph<N> cfg;
 	
-	private Map<N,Map<N,Constraint<T>>> unitToPostDomToConstraint = new HashMap<N,Map<N,Constraint<T>>>();
+	protected Map<N,Map<N,Constraint<T>>> unitToPostDomToConstraint;
 
 	public ConditionalPostdominators(DirectedGraph<N> cfg) {
 		this.cfg = cfg;
 		compute();
 	}
 
-	private void compute() {
+	protected void compute() {
 		//initialize map
+		unitToPostDomToConstraint = new HashMap<N,Map<N,Constraint<T>>>();
 		for(N u: cfg) {
 			HashMap<N, Constraint<T>> newMap = new HashMap<N, Constraint<T>>();
 			unitToPostDomToConstraint.put(u, newMap);

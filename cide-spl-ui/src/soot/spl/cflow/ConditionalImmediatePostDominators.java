@@ -7,34 +7,35 @@ import soot.spl.ifds.Constraint;
 import soot.tagkit.Host;
 import soot.toolkits.graph.DirectedGraph;
 
-public class ConditionalImmediatePostDominators<T,N extends Host> {
+public class ConditionalImmediatePostDominators<T,N extends Host> extends ConditionalPostdominators<T,N> {
 	
-	protected ConditionalPostdominators<T,N> pdomAnalysis;
+	private Map<N,Map<N,Constraint<T>>> unitToImmediatePostDomToConstraint;
 	
-	private Map<N,Map<N,Constraint<T>>> unitToImmediatePostDomToConstraint = new HashMap<N,Map<N,Constraint<T>>>();
-	
-	public ConditionalImmediatePostDominators(ConditionalPostdominators<T, N> pdomAnalysis) {
-		this.pdomAnalysis = pdomAnalysis;
-		compute();
+	public ConditionalImmediatePostDominators(DirectedGraph<N> cfg) {
+		super(cfg);
 	}
 
-	private void compute() {
-		DirectedGraph<N> cfg = pdomAnalysis.getControlFlowGraph();
+	protected void compute() {
+		super.compute();
+
+		//initialize map
+		unitToImmediatePostDomToConstraint = new HashMap<N,Map<N,Constraint<T>>>();
 		for(N u: cfg) {
 			HashMap<N, Constraint<T>> newMap = new HashMap<N, Constraint<T>>();
 			unitToImmediatePostDomToConstraint.put(u, newMap);
 		}
 		
+		//compute constraints
 		for(N n: cfg) {
 			for(N x: cfg) {
-				Constraint<T> pdomNX = pdomAnalysis.isPostDominatorOf(n, x);
+				Constraint<T> pdomNX = isPostDominatorOf(n, x);
 				
 				Constraint<T> disjunction = Constraint.falseValue(); 
 				for(N xPrime: cfg) {
 					if(xPrime==n) continue;
 					
-					Constraint<T> pdomNXPrime = pdomAnalysis.isPostDominatorOf(n, xPrime);
-					Constraint<T> pdomXPrimeX = pdomAnalysis.isPostDominatorOf(xPrime, x);
+					Constraint<T> pdomNXPrime = isPostDominatorOf(n, xPrime);
+					Constraint<T> pdomXPrimeX = isPostDominatorOf(xPrime, x);
 					Constraint<T> conjunction = pdomNXPrime.and(pdomXPrimeX);
 					
 					disjunction = disjunction.or(conjunction);
