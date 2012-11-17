@@ -121,7 +121,7 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 
 		for(N n: cfg) {
 			for(N n2: cfg) {
-				System.err.print(n2+" postominates "+n);				
+				System.err.print(n2+" postdominates "+n);				
 				Constraint<T> constraint = unitToPostDomToConstraint.get(n).get(n2);
 				System.err.println(" "+toConditionString(constraint));				
 			}
