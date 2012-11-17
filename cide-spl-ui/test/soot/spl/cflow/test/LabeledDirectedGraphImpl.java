@@ -1,6 +1,7 @@
 package soot.spl.cflow.test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -127,7 +128,10 @@ public class LabeledDirectedGraphImpl<N extends Node,L>
 
 	@Override
 	public Iterator<N> iterator() {
-		return this.nodesToEdges.keySet().iterator();
+		Set<N> set = this.nodesToEdges.keySet();
+		List<N> list = new ArrayList<N>(set);
+		Collections.sort(list);
+		return list.iterator();
 	}
 
 	private Edge<N, L> findEdge(N source, N target) {

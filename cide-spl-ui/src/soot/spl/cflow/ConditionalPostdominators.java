@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import soot.spl.ifds.Constraint;
+import soot.util.StringNumberer;
 
 public class ConditionalPostdominators<T,N> implements Iterable<N>{
 	
@@ -12,12 +13,19 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 	
 	protected Map<N,Map<N,Constraint<T>>> unitToPostDomToConstraint;
 
+	protected final StringNumberer labelNumberer;
+
 	public ConditionalPostdominators(LabeledDirectedGraph<N,Constraint<T>> cfg) {
-		this(cfg, true);
+		this(cfg, null);
 	}
 	
-	public ConditionalPostdominators(LabeledDirectedGraph<N,Constraint<T>> cfg, boolean wellformednessCheck) {
+	public ConditionalPostdominators(LabeledDirectedGraph<N,Constraint<T>> cfg, StringNumberer labelNumberer) {
+		this(cfg, true, labelNumberer);
+	}
+	
+	public ConditionalPostdominators(LabeledDirectedGraph<N,Constraint<T>> cfg, boolean wellformednessCheck, StringNumberer labelNumberer) {
 		this.cfg = cfg;
+		this.labelNumberer = labelNumberer;
 		if(wellformednessCheck)
 			checkWellformedness();
 		compute();
@@ -25,13 +33,24 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 
 	private void checkWellformedness() {
 		for(N n: cfg) {
+			//no check for exit nodes
+			if(cfg.getTails().contains(n)) continue;
+			
 			Constraint<T> disjunction = Constraint.falseValue();
 			for(N succ: cfg.getSuccsOf(n)) {
 				disjunction = disjunction.or(constraintOfEdge(n,succ));
 			}
 			if(!disjunction.equals(Constraint.trueValue())) {
-				throw new RuntimeException("Conditional CFG is not well formed! At Stmt "+n+" we get constraint "+disjunction);
+				throw new RuntimeException("Conditional CFG is not well formed! At Stmt "+n+" we get constraint "+toString(disjunction));
 			}
+		}
+	}
+
+	protected String toString(Constraint<T> constraint) {
+		if(labelNumberer==null) {
+			return constraint.toString();
+		} else {			
+			return constraint.toString(labelNumberer);
 		}
 	}
 
@@ -48,7 +67,7 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 			}
 		}
 		
-		System.err.println(unitToPostDomToConstraint);
+//		System.err.println(unitToPostDomToConstraint);
 		
 		boolean changed;		
 		do {
@@ -77,7 +96,7 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 	private boolean updateConstraint(N n, N x, Constraint<T> val) {
 		Map<N, Constraint<T>> map = unitToPostDomToConstraint.get(n);
 		Constraint<T> prev = map.put(x, val);
-		System.err.println("update: "+n+" "+x+" "+val);
+//		System.err.println("update: "+n+" "+x+" "+val);
 		return !prev.equals(val);
 	}
 
@@ -96,10 +115,11 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 		for(N n: cfg) {
 			int j=1;
 			System.err.print(i+" "+n+"  ");
-			for(N succ: cfg) {
-				System.err.print(cfg.getLabel(n, succ)+"->"+j);
+			for(N succ: cfg.getSuccsOf(n)) {
+				System.err.print(toString(cfg.getLabel(n, succ))+"->"+succ+"  ");
 				j++;
 			}
+			System.err.println();
 			i++;
 		}
 
@@ -107,7 +127,7 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 		for(N n: cfg) {
 			int j=1;
 			for(N n2: cfg) {
-				System.err.println("pdom("+i+","+j+")="+unitToPostDomToConstraint.get(n).get(n2));
+				System.err.println("pdom("+i+","+j+")="+toString(unitToPostDomToConstraint.get(n).get(n2)));
 				j++;
 			}
 			i++;

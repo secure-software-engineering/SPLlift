@@ -1,0 +1,9 @@
+STARTNODE 1while
+EXITNODE 5end
+1while -> 2if
+1while -> 5end
+2if -> 3break
+2if -> 4a
+3break -> 4a (notF)
+3break -> 5end (F)
+4a -> 1while

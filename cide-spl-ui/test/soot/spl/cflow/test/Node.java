@@ -6,7 +6,7 @@ package soot.spl.cflow.test;
  * @author Steven Arzt
  *
  */
-public interface Node {
+public interface Node extends Comparable<Node> {
 	
 	/**
 	 * Gets whether this node is a start node of the graph.
@@ -19,5 +19,7 @@ public interface Node {
 	 * @return True if this node is an exit node of the graph, otherwise false.
 	 */
 	public boolean isExitNode();
+
+	public String getNodeName();
 
 }

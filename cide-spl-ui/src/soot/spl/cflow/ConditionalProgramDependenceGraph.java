@@ -5,6 +5,7 @@ import java.util.Map;
 
 import soot.spl.ifds.Constraint;
 import soot.toolkits.graph.DirectedGraph;
+import soot.util.StringNumberer;
 
 public class ConditionalProgramDependenceGraph<T,N> {
 	
@@ -12,9 +13,12 @@ public class ConditionalProgramDependenceGraph<T,N> {
 	
 	protected Map<N,Map<N,Constraint<T>>> unitToControlDependeeToConstraint;
 
-
 	public ConditionalProgramDependenceGraph(LabeledDirectedGraph<N,Constraint<T>> cfg) {
-		cpda = new ConditionalPostdominators<T,N>(cfg);
+		this(cfg, null);
+	}
+	
+	public ConditionalProgramDependenceGraph(LabeledDirectedGraph<N,Constraint<T>> cfg, StringNumberer labelNumberer) {
+		cpda = new ConditionalPostdominators<T,N>(cfg, labelNumberer);
 		compute();
 	}
 

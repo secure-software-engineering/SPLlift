@@ -73,4 +73,9 @@ public class SimpleNode implements Node {
 		this.isEndNode = isExitNode;
 	}
 
+	@Override
+	public int compareTo(Node other) {
+		return this.nodeName.compareTo(other.getNodeName());
+	}
+
 }
