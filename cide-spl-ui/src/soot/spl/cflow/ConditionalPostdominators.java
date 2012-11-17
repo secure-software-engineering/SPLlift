@@ -67,7 +67,7 @@ public class ConditionalPostdominators<T,N extends Host> implements Iterable<N>{
 		return !prev.equals(val);
 	}
 
-	private Constraint<T> constraintOfEdge(N u) {
+	protected Constraint<T> constraintOfEdge(N u) {
 		FeatureTag tag = (FeatureTag) u.getTag(FeatureTag.FEAT_TAG_NAME);
 		if(tag==null) {
 			return Constraint.trueValue();
@@ -106,5 +106,9 @@ public class ConditionalPostdominators<T,N extends Host> implements Iterable<N>{
 	@Override
 	public Iterator<N> iterator() {
 		return cfg.iterator();
+	}
+	
+	public DirectedGraph<N> getControlFlowGraph() {
+		return cfg;
 	}
 }

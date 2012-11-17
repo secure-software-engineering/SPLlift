@@ -27,8 +27,30 @@ public class ConditionalProgramDependenceGraph<T,N extends Host> {
 			unitToControlDependeeToConstraint.put(a, newMap);
 		}
 		
-		for(N x: cpda) {
-
+		DirectedGraph<N> cfg = cpda.getControlFlowGraph();
+		
+		for(N a: cpda) {
+			for(N x: cpda) {
+				Constraint<T> disjunction = Constraint.falseValue();
+				
+				for(N b: cfg.getSuccsOf(x)) {
+					Constraint<T> c = cpda.constraintOfEdge(b);					
+					Constraint<T> notPDomAB = pdom(a,b).not();					
+					Constraint<T> cAndNotPDomAB = c.and(notPDomAB);
+					
+					Constraint<T> innerDisjunction = Constraint.falseValue();
+					for(N l: cpda) {
+						Constraint<T> lca = leastCommonAncestor(a,b,l);
+						Constraint<T> path = onPath(l, b, x);
+						Constraint<T> disjunct = lca.and(path);
+						innerDisjunction = innerDisjunction.or(disjunct);
+					}					
+					
+					disjunction = disjunction.or(cAndNotPDomAB.and(innerDisjunction));
+				}
+				
+				unitToControlDependeeToConstraint.get(a).put(x, disjunction);
+			}
 		}
 	}
 	
@@ -36,16 +58,27 @@ public class ConditionalProgramDependenceGraph<T,N extends Host> {
 		Constraint<T> ca = commonAncestor(node1, node2, potentialCommonAncestor);
 		Constraint<T> conjunction = Constraint.trueValue();
 		for(N y: cpda){
-			Constraint<T> conjunct = commonAncestor(node1, node2, y).implies(cpda.isPostDominatorOf(potentialCommonAncestor,y));
+			Constraint<T> conjunct = commonAncestor(node1, node2, y).implies(pdom(potentialCommonAncestor, y));
 			conjunction = conjunction.and(conjunct);
 		}
 		
 		return ca.and(conjunction);
 	}
 
-	private Constraint<T> commonAncestor(N node1, N node2, N potentialCommonAncestor) {
-		return cpda.isPostDominatorOf(node1, potentialCommonAncestor).
-				and(cpda.isPostDominatorOf(node2, potentialCommonAncestor));
+	private Constraint<T> commonAncestor(N a, N b, N n) {
+		return pdom(a, n).
+				and(pdom(b, n));
+	}
+
+	private Constraint<T> pdom(N a, N b) {
+		return cpda.isPostDominatorOf(a, b);
+	}
+
+	private Constraint<T> onPath(N a, N b, N n) {
+		Constraint<T> aNotEqualsN = a!=n ? Constraint.<T>trueValue() : Constraint.<T>falseValue();
+		return pdom(n, a).
+				and(pdom(b, n)).
+				and(aNotEqualsN);
 	}
 
 }

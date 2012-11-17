@@ -24,6 +24,7 @@ import soot.jimple.toolkits.callgraph.ReachableMethods;
 import soot.options.Options;
 import soot.spl.cflow.ConditionalImmediatePostDominators;
 import soot.spl.cflow.ConditionalPostdominators;
+import soot.spl.cflow.ConditionalProgramDependenceGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.util.queue.QueueReader;
 import br.ufal.cideei.features.CIDEFeatureExtracterFactory;
@@ -72,8 +73,8 @@ public class Main {
 						Body mmBody = Scene.v().getMainMethod().getActiveBody();
 						System.err.println(mmBody);
 						
-						ConditionalImmediatePostDominators<String, Unit> cipda =
-								new ConditionalImmediatePostDominators<String, Unit>(new ExceptionalUnitGraph(mmBody));						
+						ConditionalProgramDependenceGraph<String, Unit> cpdg = new ConditionalProgramDependenceGraph<String, Unit>(new ExceptionalUnitGraph(mmBody));
+						System.err.println();
 					
 //						final Multimap<SootMethod,Local> initialSeeds = HashMultimap.create();
 //						initialSeeds.put(Scene.v().getMainMethod(), Scene.v().getMainMethod().getActiveBody().getLocals().getFirst());
