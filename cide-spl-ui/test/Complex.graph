@@ -1,0 +1,10 @@
+STARTNODE a
+EXITNODE g
+a -> b (F)
+a -> c (notF)
+a -> d (G)
+b -> e
+c -> f
+d -> f
+e -> g
+f -> g
