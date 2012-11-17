@@ -17,8 +17,26 @@ public class ConditionalPostdominators<T,N extends Host> implements Iterable<N>{
 	protected Map<N,Map<N,Constraint<T>>> unitToPostDomToConstraint;
 
 	public ConditionalPostdominators(DirectedGraph<N> cfg) {
+		this(cfg, true);
+	}
+	
+	public ConditionalPostdominators(DirectedGraph<N> cfg, boolean wellformednessCheck) {
 		this.cfg = cfg;
+		if(wellformednessCheck)
+			checkWellformedness();
 		compute();
+	}
+
+	private void checkWellformedness() {
+		for(N n: cfg) {
+			Constraint<T> disjunction = Constraint.falseValue();
+			for(N succ: cfg.getSuccsOf(n)) {
+				disjunction = disjunction.or(constraintOfEdge(n,succ));
+			}
+			if(!disjunction.equals(Constraint.trueValue())) {
+				throw new RuntimeException("Conditional CFG is not well formed! At Stmt "+n+" we get constraint "+disjunction);
+			}
+		}
 	}
 
 	protected void compute() {
@@ -48,7 +66,7 @@ public class ConditionalPostdominators<T,N extends Host> implements Iterable<N>{
 						//FIXME compute different constraints for target and fallthrough
 						Constraint<T> conjunction = Constraint.<T>trueValue();
 						for(N s: cfg.getSuccsOf(n)) {
-							Constraint<T> c = constraintOfEdge(s);
+							Constraint<T> c = constraintOfEdge(n,s);
 							Constraint<T> pdomSX = unitToPostDomToConstraint.get(s).get(x);
 							Constraint<T> conjunct = c.implies(pdomSX);
 							conjunction = conjunction.and(conjunct);
@@ -67,8 +85,12 @@ public class ConditionalPostdominators<T,N extends Host> implements Iterable<N>{
 		return !prev.equals(val);
 	}
 
-	protected Constraint<T> constraintOfEdge(N u) {
-		FeatureTag tag = (FeatureTag) u.getTag(FeatureTag.FEAT_TAG_NAME);
+	protected Constraint<T> constraintOfEdge(N n, N succ) {
+		return constraintOfNode(n).and(constraintOfNode(succ));
+	}
+
+	private Constraint<T> constraintOfNode(N n) {
+		FeatureTag tag = (FeatureTag) n.getTag(FeatureTag.FEAT_TAG_NAME);
 		if(tag==null) {
 			return Constraint.trueValue();
 		} else {
@@ -86,7 +108,7 @@ public class ConditionalPostdominators<T,N extends Host> implements Iterable<N>{
 	public String print() {
 		int i=1;
 		for(N n: cfg) {
-			System.err.println(i+" "+n+"   "+constraintOfEdge(n));
+			System.err.println(i+" "+n+"   "+constraintOfNode(n));
 			i++;
 		}
 

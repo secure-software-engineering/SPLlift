@@ -34,7 +34,7 @@ public class ConditionalProgramDependenceGraph<T,N extends Host> {
 				Constraint<T> disjunction = Constraint.falseValue();
 				
 				for(N b: cfg.getSuccsOf(x)) {
-					Constraint<T> c = cpda.constraintOfEdge(b);					
+					Constraint<T> c = cpda.constraintOfEdge(x,b);					
 					Constraint<T> notPDomAB = pdom(a,b).not();					
 					Constraint<T> cAndNotPDomAB = c.and(notPDomAB);
 					
