@@ -46,7 +46,7 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 		}
 	}
 
-	protected String toString(Constraint<T> constraint) {
+	public String toString(Constraint<T> constraint) {
 		if(labelNumberer==null) {
 			return constraint.toString();
 		} else {			
@@ -130,7 +130,7 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 		return super.toString();
 	}
 
-	private String toConditionString(Constraint<T> constraint) {
+	public String toConditionString(Constraint<T> constraint) {
 		String res;
 		if(constraint.equals(Constraint.falseValue())){
 			res="never";

@@ -83,5 +83,26 @@ public class ConditionalProgramDependenceGraph<T,N> {
 				and(pdom(b, n)).
 				and(aNotEqualsN);
 	}
+	
+	public String print() {
+		LabeledDirectedGraph<N, Constraint<T>> cfg = cpda.getControlFlowGraph();
+		for(N n: cfg) {
+			System.err.print(n+"  ");
+			for(N succ: cfg.getSuccsOf(n)) {
+				System.err.print(cpda.toString(cfg.getLabel(n, succ))+"->"+succ+"  ");
+			}
+			System.err.println();
+		}
+
+		for(N n: cfg) {
+			for(N n2: cfg) {
+				System.err.print(n2+" is control-dependent on "+n);				
+				Constraint<T> constraint = unitToControlDependeeToConstraint.get(n).get(n2);
+				System.err.println(" "+cpda.toConditionString(constraint));				
+			}
+		}
+
+		return super.toString();
+	}
 
 }

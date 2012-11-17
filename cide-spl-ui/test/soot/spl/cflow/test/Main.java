@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import soot.spl.cflow.ConditionalPostdominators;
+import soot.spl.cflow.ConditionalProgramDependenceGraph;
 import soot.spl.cflow.LabeledDirectedGraph;
 import soot.spl.ifds.Constraint;
 
@@ -22,17 +23,14 @@ public class Main {
 		ConstraintGraphBuilder builder = new ConstraintGraphBuilder();
 		
 		LabeledDirectedGraph<Node, Constraint<String>> graph = builder.buildGraphFromFile(inputFile);
-		
-		System.err.println(graph);
-		
+				
 		ConditionalPostdominators<String, Node> cpd = new ConditionalPostdominators<String, Node>(graph, builder.getLabelNumberer());
 		
 		cpd.print();
 		
-//		ConditionalProgramDependenceGraph<String, Node> cpdg = new ConditionalProgramDependenceGraph<String,Node>(graph);
-//		
+		ConditionalProgramDependenceGraph<String, Node> cpdg = new ConditionalProgramDependenceGraph<String,Node>(graph, builder.getLabelNumberer());
 		
-		
+		cpdg.print();
 	}
 
 }
