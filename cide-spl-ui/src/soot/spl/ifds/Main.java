@@ -1,6 +1,5 @@
 package soot.spl.ifds;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -9,7 +8,6 @@ import net.sf.javabdd.BDDFactory;
 import org.eclipse.jdt.core.IJavaProject;
 
 import soot.Body;
-import soot.Local;
 import soot.MethodOrMethodContext;
 import soot.Pack;
 import soot.PackManager;
@@ -18,12 +16,8 @@ import soot.SceneTransformer;
 import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
-import soot.jimple.interproc.ifds.IFDSTabulationProblem;
-import soot.jimple.interproc.ifds.template.JimpleBasedInterproceduralCFG;
 import soot.jimple.toolkits.callgraph.ReachableMethods;
 import soot.options.Options;
-import soot.spl.cflow.ConditionalImmediatePostDominators;
-import soot.spl.cflow.ConditionalPostdominators;
 import soot.spl.cflow.ConditionalProgramDependenceGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.util.queue.QueueReader;
@@ -31,9 +25,6 @@ import br.ufal.cideei.features.CIDEFeatureExtracterFactory;
 import br.ufal.cideei.features.IFeatureExtracter;
 import br.ufal.cideei.handlers.AnalysisArgs;
 import br.ufal.cideei.soot.instrument.FeatureModelInstrumentorTransformer;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 
 public class Main {
 	
