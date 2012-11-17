@@ -71,10 +71,9 @@ public class Main {
 
 						Body mmBody = Scene.v().getMainMethod().getActiveBody();
 						System.err.println(mmBody);
-						ConditionalPostdominators<String,Unit> cpda = new ConditionalPostdominators<String,Unit>(new ExceptionalUnitGraph(mmBody));
-						cpda.print();
 						
-						ConditionalImmediatePostDominators<String, Unit> cipda = new ConditionalImmediatePostDominators<String, Unit>(cpda);						
+						ConditionalImmediatePostDominators<String, Unit> cipda =
+								new ConditionalImmediatePostDominators<String, Unit>(new ExceptionalUnitGraph(mmBody));						
 					
 //						final Multimap<SootMethod,Local> initialSeeds = HashMultimap.create();
 //						initialSeeds.put(Scene.v().getMainMethod(), Scene.v().getMainMethod().getActiveBody().getLocals().getFirst());

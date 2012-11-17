@@ -55,5 +55,4 @@ public class ConditionalImmediatePostDominators<T,N extends Host> extends Condit
 		if(map==null) return Constraint.<T>falseValue();
 		return map.get(potentialImmediatePostDominator);
 	}
-
 }

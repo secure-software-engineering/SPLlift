@@ -2,6 +2,7 @@ package soot.spl.cflow;
 
 import java.util.BitSet;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import soot.spl.ifds.Constraint;
@@ -9,7 +10,7 @@ import soot.tagkit.Host;
 import soot.toolkits.graph.DirectedGraph;
 import br.ufal.cideei.soot.instrument.FeatureTag;
 
-public class ConditionalPostdominators<T,N extends Host> {
+public class ConditionalPostdominators<T,N extends Host> implements Iterable<N>{
 	
 	protected final DirectedGraph<N> cfg;
 	
@@ -101,10 +102,9 @@ public class ConditionalPostdominators<T,N extends Host> {
 
 		return super.toString();
 	}
-	
-	public DirectedGraph<N> getControlFlowGraph() {
-		return cfg;
+
+	@Override
+	public Iterator<N> iterator() {
+		return cfg.iterator();
 	}
-	
-	
 }
