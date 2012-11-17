@@ -4,17 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import soot.spl.ifds.Constraint;
-import soot.tagkit.Host;
 import soot.toolkits.graph.DirectedGraph;
 
-public class ConditionalProgramDependenceGraph<T,N extends Host> {
+public class ConditionalProgramDependenceGraph<T,N> {
 	
 	private ConditionalPostdominators<T, N> cpda;
 	
 	protected Map<N,Map<N,Constraint<T>>> unitToControlDependeeToConstraint;
 
 
-	public ConditionalProgramDependenceGraph(DirectedGraph<N> cfg) {
+	public ConditionalProgramDependenceGraph(LabeledDirectedGraph<N,Constraint<T>> cfg) {
 		cpda = new ConditionalPostdominators<T,N>(cfg);
 		compute();
 	}

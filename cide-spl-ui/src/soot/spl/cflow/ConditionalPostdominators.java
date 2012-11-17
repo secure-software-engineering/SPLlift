@@ -1,26 +1,22 @@
 package soot.spl.cflow;
 
-import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import soot.spl.ifds.Constraint;
-import soot.tagkit.Host;
-import soot.toolkits.graph.DirectedGraph;
-import br.ufal.cideei.soot.instrument.FeatureTag;
 
-public class ConditionalPostdominators<T,N extends Host> implements Iterable<N>{
+public class ConditionalPostdominators<T,N> implements Iterable<N>{
 	
-	protected final DirectedGraph<N> cfg;
+	protected final LabeledDirectedGraph<N,Constraint<T>> cfg;
 	
 	protected Map<N,Map<N,Constraint<T>>> unitToPostDomToConstraint;
 
-	public ConditionalPostdominators(DirectedGraph<N> cfg) {
+	public ConditionalPostdominators(LabeledDirectedGraph<N,Constraint<T>> cfg) {
 		this(cfg, true);
 	}
 	
-	public ConditionalPostdominators(DirectedGraph<N> cfg, boolean wellformednessCheck) {
+	public ConditionalPostdominators(LabeledDirectedGraph<N,Constraint<T>> cfg, boolean wellformednessCheck) {
 		this.cfg = cfg;
 		if(wellformednessCheck)
 			checkWellformedness();
@@ -86,17 +82,7 @@ public class ConditionalPostdominators<T,N extends Host> implements Iterable<N>{
 	}
 
 	protected Constraint<T> constraintOfEdge(N n, N succ) {
-		return constraintOfNode(n).and(constraintOfNode(succ));
-	}
-
-	private Constraint<T> constraintOfNode(N n) {
-		FeatureTag tag = (FeatureTag) n.getTag(FeatureTag.FEAT_TAG_NAME);
-		if(tag==null) {
-			return Constraint.trueValue();
-		} else {
-			BitSet features = tag.getFeatureRep();
-			return Constraint.make(features, true);
-		}
+		return cfg.getLabel(n, succ);
 	}
 	
 	public Constraint<T> isPostDominatorOf(N node, N potentialPostDominator) {
@@ -108,7 +94,12 @@ public class ConditionalPostdominators<T,N extends Host> implements Iterable<N>{
 	public String print() {
 		int i=1;
 		for(N n: cfg) {
-			System.err.println(i+" "+n+"   "+constraintOfNode(n));
+			int j=1;
+			System.err.print(i+" "+n+"  ");
+			for(N succ: cfg) {
+				System.err.print(cfg.getLabel(n, succ)+"->"+j);
+				j++;
+			}
 			i++;
 		}
 
@@ -130,7 +121,7 @@ public class ConditionalPostdominators<T,N extends Host> implements Iterable<N>{
 		return cfg.iterator();
 	}
 	
-	public DirectedGraph<N> getControlFlowGraph() {
+	public LabeledDirectedGraph<N,Constraint<T>> getControlFlowGraph() {
 		return cfg;
 	}
 }
