@@ -111,29 +111,35 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 	}
 	
 	public String print() {
-		int i=1;
 		for(N n: cfg) {
-			int j=1;
-			System.err.print(i+" "+n+"  ");
+			System.err.print(n+"  ");
 			for(N succ: cfg.getSuccsOf(n)) {
 				System.err.print(toString(cfg.getLabel(n, succ))+"->"+succ+"  ");
-				j++;
 			}
 			System.err.println();
-			i++;
 		}
 
-		i=1;
 		for(N n: cfg) {
-			int j=1;
 			for(N n2: cfg) {
-				System.err.println("pdom("+i+","+j+")="+toString(unitToPostDomToConstraint.get(n).get(n2)));
-				j++;
+				System.err.print(n2+" postominates "+n);				
+				Constraint<T> constraint = unitToPostDomToConstraint.get(n).get(n2);
+				System.err.println(" "+toConditionString(constraint));				
 			}
-			i++;
 		}
 
 		return super.toString();
+	}
+
+	private String toConditionString(Constraint<T> constraint) {
+		String res;
+		if(constraint.equals(Constraint.falseValue())){
+			res="never";
+		} else if(constraint.equals(Constraint.trueValue())) {
+			res="always";
+		} else {
+			res="if "+toString(constraint);
+		}
+		return res;
 	}
 
 	@Override
