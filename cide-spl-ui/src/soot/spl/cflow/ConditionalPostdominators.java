@@ -1,5 +1,8 @@
 package soot.spl.cflow;
 
+import graphviz.GraphViz;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -134,6 +137,27 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 			}
 		}
 		System.err.println("================================");
+	}
+	
+	public void outputGraphViz() {
+		outputGraphViz("pdom", unitToPostDomToConstraint);
+	}
+	
+	protected void outputGraphViz(String fileName, Map<N,Map<N,Constraint<T>>> map) {
+	      GraphViz gv = new GraphViz();
+	      gv.addln(gv.start_graph());
+	      for(N n1: cfg) {
+		      for(N n2: cfg) {
+		    	  Constraint<T> constraint = map.get(n1).get(n2);
+		    	  if(n1==n2 || constraint.equals(Constraint.falseValue())) continue;
+			      gv.addln(n2+" -> "+n1+" [label=\""+toString(constraint)+"\"];");
+		      }
+	      }
+	      gv.addln(gv.end_graph());
+	      
+	      String type = "pdf";
+	      File out = new File("/tmp/"+fileName+"." + type);   // Linux
+	      gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), type ), out );
 	}
 
 	public String toConditionString(Constraint<T> constraint) {

@@ -108,5 +108,10 @@ public class ConditionalProgramDependenceGraph<T,N> {
 //			}
 //		}
 	}
+	
+	public void outputGraphViz() {
+		cpda.outputGraphViz("pdg", unitToControlDependeeToConstraint);
+	}
+
 
 }
