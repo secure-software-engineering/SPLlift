@@ -1,5 +1,5 @@
 STARTNODE a
-EXITNODE g
+EXITNODE end
 a -> b (F)
 a -> c (notF)
 a -> d (G)
@@ -8,3 +8,4 @@ c -> f
 d -> f
 e -> g
 f -> g
+g -> end
