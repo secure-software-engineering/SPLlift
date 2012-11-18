@@ -139,11 +139,11 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 		System.err.println("================================");
 	}
 	
-	public void outputGraphViz() {
-		outputGraphViz("pdom", unitToPostDomToConstraint);
+	public void outputGraphViz(String prefix) {
+		outputGraphViz(prefix, "pdom", unitToPostDomToConstraint);
 	}
 	
-	protected void outputGraphViz(String fileName, Map<N,Map<N,Constraint<T>>> map) {
+	protected void outputGraphViz(String prefix, String fileName, Map<N,Map<N,Constraint<T>>> map) {
 	      GraphViz gv = new GraphViz();
 	      gv.addln(gv.start_graph());
 	      for(N n1: cfg) {
@@ -156,7 +156,7 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 	      gv.addln(gv.end_graph());
 	      
 	      String type = "pdf";
-	      File out = new File("/tmp/"+fileName+"." + type);   // Linux
+	      File out = new File("/tmp/"+prefix+"-"+fileName+"." + type);   // Linux
 	      gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), type ), out );
 	}
 

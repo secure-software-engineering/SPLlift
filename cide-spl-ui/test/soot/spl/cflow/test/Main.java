@@ -28,17 +28,17 @@ public class Main {
 		ConditionalPostdominators<String, Node> cpd = new ConditionalPostdominators<String, Node>(graph, builder.getLabelNumberer());
 		
 		cpd.print();
-		cpd.outputGraphViz();
+		cpd.outputGraphViz(inputFile.getName());
 
 		ConditionalImmediatePostdominators<String, Node> cipd = new ConditionalImmediatePostdominators<String, Node>(graph, builder.getLabelNumberer());
 		
 		cipd.print();
-		cipd.outputGraphViz();
+		cipd.outputGraphViz(inputFile.getName());
 		
 		ConditionalProgramDependenceGraph<String, Node> cpdg = new ConditionalProgramDependenceGraph<String,Node>(graph, builder.getLabelNumberer());
 		
 		cpdg.print();
-		cpdg.outputGraphViz();
+		cpdg.outputGraphViz(inputFile.getName());
 	}
 
 }
