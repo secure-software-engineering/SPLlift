@@ -36,8 +36,8 @@ public class ConditionalProgramDependenceGraph<T,N> {
 			for(N x: cpda) {
 				Constraint<T> disjunction = Constraint.falseValue();
 				
-				for(N b: cfg.getSuccsOf(x)) {
-					Constraint<T> c = cpda.constraintOfEdge(x,b);					
+				for(N b: cfg.getSuccsOf(a)) {
+					Constraint<T> c = cpda.constraintOfEdge(a,b);					
 					Constraint<T> notPDomAB = pdom(a,b).not();					
 					Constraint<T> cAndNotPDomAB = c.and(notPDomAB);
 					
@@ -45,7 +45,9 @@ public class ConditionalProgramDependenceGraph<T,N> {
 					for(N l: cpda) {
 						Constraint<T> lca = leastCommonAncestor(a,b,l);
 						Constraint<T> path = onPath(l, b, x);
-						Constraint<T> disjunct = lca.and(path);
+						Constraint<T> lEqAEqX = l==a && x==a ? Constraint.<T>trueValue():Constraint.<T>falseValue();
+						Constraint<T> innerMostDisjunction = path.or(lEqAEqX);
+						Constraint<T> disjunct = lca.and(innerMostDisjunction);
 						innerDisjunction = innerDisjunction.or(disjunct);
 					}					
 					
@@ -84,25 +86,27 @@ public class ConditionalProgramDependenceGraph<T,N> {
 				and(aNotEqualsN);
 	}
 	
-	public String print() {
-		LabeledDirectedGraph<N, Constraint<T>> cfg = cpda.getControlFlowGraph();
-		for(N n: cfg) {
-			System.err.print(n+"  ");
-			for(N succ: cfg.getSuccsOf(n)) {
-				System.err.print(cpda.toString(cfg.getLabel(n, succ))+"->"+succ+"  ");
-			}
-			System.err.println();
-		}
-
-		for(N n: cfg) {
-			for(N n2: cfg) {
-				System.err.print(n2+" is control-dependent on "+n);				
-				Constraint<T> constraint = unitToControlDependeeToConstraint.get(n).get(n2);
-				System.err.println(" "+cpda.toConditionString(constraint));				
-			}
-		}
-
-		return super.toString();
+	public void print() {		
+		cpda.print("is-control-dependent-on", unitToControlDependeeToConstraint);
+//		for(N n1: cpda) {
+//			for(N n2: cpda) {
+//				for(N n3: cpda) {					
+//					Constraint<T> lca = leastCommonAncestor(n1, n2, n3);
+//					if((n1==n2 && n2==n3) || lca.equals(Constraint.falseValue())) continue;
+//					System.err.println("lca("+n1+","+n2+")="+n3+" "+cpda.toConditionString(lca));					
+//				}
+//			}
+//		}
+//		System.err.println("- - - - -");
+//		for(N n1: cpda) {
+//			for(N n2: cpda) {
+//				for(N n3: cpda) {					
+//					Constraint<T> lca = onPath(n1, n2, n3);
+//					if((n1==n2 && n2==n3) || lca.equals(Constraint.falseValue())) continue;
+//					System.err.println(n3+" is on path("+n1+","+n2+") "+cpda.toConditionString(lca));					
+//				}
+//			}
+//		}
 	}
 
 }

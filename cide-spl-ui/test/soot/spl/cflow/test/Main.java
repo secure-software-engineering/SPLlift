@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import soot.spl.cflow.ConditionalImmediatePostdominators;
 import soot.spl.cflow.ConditionalPostdominators;
+import soot.spl.cflow.ConditionalProgramDependenceGraph;
 import soot.spl.cflow.LabeledDirectedGraph;
 import soot.spl.ifds.Constraint;
 
@@ -32,9 +33,9 @@ public class Main {
 		
 		cipd.print();
 		
-//		ConditionalProgramDependenceGraph<String, Node> cpdg = new ConditionalProgramDependenceGraph<String,Node>(graph, builder.getLabelNumberer());
-//		
-//		cpdg.print();
+		ConditionalProgramDependenceGraph<String, Node> cpdg = new ConditionalProgramDependenceGraph<String,Node>(graph, builder.getLabelNumberer());
+		
+		cpdg.print();
 	}
 
 }
