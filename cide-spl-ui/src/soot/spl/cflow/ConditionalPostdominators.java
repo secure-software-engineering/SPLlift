@@ -110,7 +110,12 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 		return map.get(potentialPostDominator);
 	}
 	
-	public String print() {
+	public void print() {
+		print("postdominates", unitToPostDomToConstraint);
+	}
+	
+	protected void print(String verb, Map<N,Map<N,Constraint<T>>> map) {
+		System.err.println("================================");
 		for(N n: cfg) {
 			System.err.print(n+"  ");
 			for(N succ: cfg.getSuccsOf(n)) {
@@ -118,16 +123,17 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 			}
 			System.err.println();
 		}
+		System.err.println("- - - - - - - - - - - - - - - - ");
 
 		for(N n: cfg) {
 			for(N n2: cfg) {
-				System.err.print(n2+" postdominates "+n);				
-				Constraint<T> constraint = unitToPostDomToConstraint.get(n).get(n2);
+				Constraint<T> constraint = map.get(n).get(n2);
+				if(n==n2 || constraint.equals(Constraint.falseValue())) continue;
+				System.err.print(n2+" "+verb+" "+n);				
 				System.err.println(" "+toConditionString(constraint));				
 			}
 		}
-
-		return super.toString();
+		System.err.println("================================");
 	}
 
 	public String toConditionString(Constraint<T> constraint) {
