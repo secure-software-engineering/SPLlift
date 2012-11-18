@@ -110,7 +110,11 @@ public class ConditionalProgramDependenceGraph<T,N> {
 	}
 	
 	public void outputGraphViz(String prefix) {
-		cpda.outputGraphViz(prefix, "pdg", unitToControlDependeeToConstraint);
+		cpda.outputGraphViz(prefix, "pdg", unitToControlDependeeToConstraint, true);
+	}
+	
+	public Constraint<T> isDependentOn(N node, N potentialBranch) {
+		return unitToControlDependeeToConstraint.get(node).get(potentialBranch);
 	}
 
 

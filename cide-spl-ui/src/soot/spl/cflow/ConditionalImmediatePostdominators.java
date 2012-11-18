@@ -65,7 +65,7 @@ public class ConditionalImmediatePostdominators<T,N> extends ConditionalPostdomi
 	}
 	
 	public void outputGraphViz(String prefix) {
-		outputGraphViz(prefix, "ipdom", unitToImmediatePostDomToConstraint);
+		outputGraphViz(prefix, "ipdom", unitToImmediatePostDomToConstraint, false);
 	}
 
 	

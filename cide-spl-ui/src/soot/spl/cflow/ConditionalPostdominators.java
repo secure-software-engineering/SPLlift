@@ -140,17 +140,21 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 	}
 	
 	public void outputGraphViz(String prefix) {
-		outputGraphViz(prefix, "pdom", unitToPostDomToConstraint);
+		outputGraphViz(prefix, "pdom", unitToPostDomToConstraint, false);
 	}
 	
-	protected void outputGraphViz(String prefix, String fileName, Map<N,Map<N,Constraint<T>>> map) {
+	protected void outputGraphViz(String prefix, String fileName, Map<N,Map<N,Constraint<T>>> map, boolean reverseDirection) {
 	      GraphViz gv = new GraphViz();
 	      gv.addln(gv.start_graph());
 	      for(N n1: cfg) {
 		      for(N n2: cfg) {
 		    	  Constraint<T> constraint = map.get(n1).get(n2);
 		    	  if(n1==n2 || constraint.equals(Constraint.falseValue())) continue;
-			      gv.addln(n2+" -> "+n1+" [label=\""+toString(constraint)+"\"];");
+		    	  if(reverseDirection) {
+		    		  gv.addln(n1+" -> "+n2+" [label=\""+toString(constraint)+"\"];");
+		    	  } else {
+		    		  gv.addln(n2+" -> "+n1+" [label=\""+toString(constraint)+"\"];");
+		    	  }
 		      }
 	      }
 	      gv.addln(gv.end_graph());
