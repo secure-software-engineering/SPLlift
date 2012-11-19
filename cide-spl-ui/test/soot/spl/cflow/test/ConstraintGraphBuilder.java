@@ -25,7 +25,7 @@ public class ConstraintGraphBuilder {
 		Constraint.FACTORY = BDDFactory.init(100000, 100000);
 		Constraint.FACTORY.setVarNum(100); //some number high enough to accommodate the max. number of features; ideally we should compute this number 
 		
-		LabeledDirectedGraphImpl<Node, Constraint<String>> graph = new LabeledDirectedGraphImpl<Node, Constraint<String>>();
+		LabeledDirectedGraphImpl<Node, Constraint<String>> graph = new AugmentedLabeledDirectedGraphImpl<Node, Constraint<String>>();
 		Map<String, SimpleNode> nodeCache = new HashMap<String, SimpleNode>();
 		
 		numberer = new StringNumberer();

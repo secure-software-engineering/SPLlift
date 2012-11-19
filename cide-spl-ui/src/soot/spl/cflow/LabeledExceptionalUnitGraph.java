@@ -8,6 +8,7 @@ import soot.spl.ifds.Constraint;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import br.ufal.cideei.soot.instrument.FeatureTag;
 
+//FIXME add additional "true"-edge from start to end?
 public class LabeledExceptionalUnitGraph extends ExceptionalUnitGraph implements LabeledDirectedGraph<Unit,Constraint<String>> {
 
 	public LabeledExceptionalUnitGraph(Body body) {
