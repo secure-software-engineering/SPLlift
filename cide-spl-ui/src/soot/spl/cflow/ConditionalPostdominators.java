@@ -23,30 +23,9 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 	}
 	
 	public ConditionalPostdominators(LabeledDirectedGraph<N,Constraint<T>> cfg, StringNumberer labelNumberer) {
-		this(cfg, true, labelNumberer);
-	}
-	
-	public ConditionalPostdominators(LabeledDirectedGraph<N,Constraint<T>> cfg, boolean wellformednessCheck, StringNumberer labelNumberer) {
 		this.cfg = cfg;
 		this.labelNumberer = labelNumberer;
-		if(wellformednessCheck)
-			checkWellformedness();
 		compute();
-	}
-
-	private void checkWellformedness() {
-		for(N n: cfg) {
-			//no check for exit nodes
-			if(cfg.getTails().contains(n)) continue;
-			
-			Constraint<T> disjunction = Constraint.falseValue();
-			for(N succ: cfg.getSuccsOf(n)) {
-				disjunction = disjunction.or(constraintOfEdge(n,succ));
-			}
-			if(!disjunction.equals(Constraint.trueValue())) {
-				throw new RuntimeException("Conditional CFG is not well formed! At Stmt "+n+" we get constraint "+toString(disjunction));
-			}
-		}
 	}
 
 	public String toString(Constraint<T> constraint) {
