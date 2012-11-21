@@ -1,6 +1,5 @@
 package soot.spl.ifds;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import net.sf.javabdd.BDDFactory;
@@ -8,20 +7,18 @@ import net.sf.javabdd.BDDFactory;
 import org.eclipse.jdt.core.IJavaProject;
 
 import soot.Body;
-import soot.MethodOrMethodContext;
 import soot.Pack;
 import soot.PackManager;
 import soot.Scene;
 import soot.SceneTransformer;
+import soot.SootClass;
 import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
-import soot.jimple.toolkits.callgraph.ReachableMethods;
 import soot.options.Options;
 import soot.spl.cflow.ConditionalProgramDependenceGraph;
 import soot.spl.cflow.LabeledUnitGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph;
-import soot.util.queue.QueueReader;
 import br.ufal.cideei.features.CIDEFeatureExtracterFactory;
 import br.ufal.cideei.features.IFeatureExtracter;
 import br.ufal.cideei.handlers.AnalysisArgs;
@@ -35,7 +32,7 @@ public class Main {
 		try {
 			String j2me = arg.j2me ? "-j2me -x org. -x com. -x java -ire -allow-phantom-refs " : "";
 			
-			String string = "-cp "+classpath+" -p cg.spark on -f none -src-prec java -w "+j2me+"-main-class "+mainClass+" "+mainClass;
+			String string = "-cp "+classpath+" -f none -src-prec java -app -w "+j2me+"-main-class "+mainClass+" "+mainClass;
 			String[] args = string.split(" ");
 			
 			if(!arg.includeJDK) Options.v().set_no_bodies_for_excluded(true);
@@ -43,21 +40,18 @@ public class Main {
 			Pack pack = PackManager.v().getPack("wjtp");
 			if(pack.get("wjtp.ifds")==null) {
 				pack.add(new Transform("wjtp.ifds", new SceneTransformer() {
-					@SuppressWarnings("unchecked")
+
 					protected void internalTransform(String phaseName, @SuppressWarnings("rawtypes") Map options) {
 						IFeatureExtracter extracter = CIDEFeatureExtracterFactory.getInstance().getExtracter();
 						FeatureModelInstrumentorTransformer bodyTransformer = new FeatureModelInstrumentorTransformer(extracter,classpath);
-						ReachableMethods rm = new ReachableMethods(Scene.v().getCallGraph(), new ArrayList<MethodOrMethodContext>(Scene.v().getEntryPoints()));
-						rm.update();
-						QueueReader<MethodOrMethodContext> iter = rm.listener();
-						while(iter.hasNext()) {
-							SootMethod m = iter.next().method();
-							if(m.hasActiveBody()) {
-								Body b = m.getActiveBody();
-								bodyTransformer.transform(b);
+						for(SootClass sc: Scene.v().getApplicationClasses()) {
+							for(SootMethod m: sc.getMethods()) {
+								if(m.hasActiveBody()) {
+									Body b = m.getActiveBody();
+									bodyTransformer.transform(b);
+								}
 							}
 						}
-						
 						
 						Constraint.FACTORY = BDDFactory.init(100000, 100000);
 						Constraint.FACTORY.setVarNum(100); //some number high enough to accommodate the max. number of features; ideally we should compute this number 
