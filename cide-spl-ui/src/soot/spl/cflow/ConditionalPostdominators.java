@@ -49,8 +49,6 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 			}
 		}
 		
-//		System.err.println(unitToPostDomToConstraint);
-		
 		boolean changed;		
 		do {
 			changed = false;
@@ -78,7 +76,6 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 	private boolean updateConstraint(N n, N x, Constraint<T> val) {
 		Map<N, Constraint<T>> map = unitToPostDomToConstraint.get(n);
 		Constraint<T> prev = map.put(x, val);
-//		System.err.println("update: "+n+" "+x+" "+val);
 		return !prev.equals(val);
 	}
 
