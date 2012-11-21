@@ -43,7 +43,7 @@ public class LabeledUnitGraph implements LabeledDirectedGraph<Unit,Constraint<St
 				predDisjunction = predDisjunction.or(constraintOfEdge(u,pred));
 			}
 			
-			if(predDisjunction.implies(succDisjunction).equals(Constraint.falseValue())) {
+			if(!predDisjunction.implies(succDisjunction).equals(Constraint.trueValue())) {
 				throw new RuntimeException("Conditional CFG is not well formed! At Stmt "+u+" we get constraint "+succDisjunction);
 			}
 		}
