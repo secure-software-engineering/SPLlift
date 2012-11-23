@@ -16,7 +16,7 @@ import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
 import soot.options.Options;
-import soot.spl.cflow.ConditionalProgramDependenceGraph;
+import soot.spl.cflow.ConditionalControlDependenceGraph;
 import soot.spl.cflow.LabeledUnitGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import br.ufal.cideei.features.CIDEFeatureExtracterFactory;
@@ -59,7 +59,7 @@ public class Main {
 						Body mmBody = Scene.v().getMainMethod().getActiveBody();
 						System.err.println(mmBody);
 						
-						ConditionalProgramDependenceGraph<String, Unit> cpdg = new ConditionalProgramDependenceGraph<String, Unit>(new LabeledUnitGraph(new ExceptionalUnitGraph(mmBody)));
+						ConditionalControlDependenceGraph<String, Unit> cpdg = new ConditionalControlDependenceGraph<String, Unit>(new LabeledUnitGraph(new ExceptionalUnitGraph(mmBody)));
 						System.err.println();
 					
 //						final Multimap<SootMethod,Local> initialSeeds = HashMultimap.create();

@@ -7,17 +7,17 @@ import soot.spl.ifds.Constraint;
 import soot.toolkits.graph.DirectedGraph;
 import soot.util.StringNumberer;
 
-public class ConditionalProgramDependenceGraph<T,N> {
+public class ConditionalControlDependenceGraph<T,N> {
 	
 	private ConditionalPostdominators<T, N> cpda;
 	
 	protected Map<N,Map<N,Constraint<T>>> unitToControlDependeeToConstraint;
 
-	public ConditionalProgramDependenceGraph(LabeledDirectedGraph<N,Constraint<T>> cfg) {
+	public ConditionalControlDependenceGraph(LabeledDirectedGraph<N,Constraint<T>> cfg) {
 		this(cfg, null);
 	}
 	
-	public ConditionalProgramDependenceGraph(LabeledDirectedGraph<N,Constraint<T>> cfg, StringNumberer labelNumberer) {
+	public ConditionalControlDependenceGraph(LabeledDirectedGraph<N,Constraint<T>> cfg, StringNumberer labelNumberer) {
 		cpda = new ConditionalPostdominators<T,N>(cfg, labelNumberer);
 		compute();
 	}
