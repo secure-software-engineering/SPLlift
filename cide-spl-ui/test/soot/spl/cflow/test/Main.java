@@ -3,9 +3,10 @@ package soot.spl.cflow.test;
 import java.io.File;
 import java.io.IOException;
 
+import soot.spl.cflow.ConditionalControlDependenceGraph;
 import soot.spl.cflow.ConditionalImmediatePostdominators;
 import soot.spl.cflow.ConditionalPostdominators;
-import soot.spl.cflow.ConditionalControlDependenceGraph;
+import soot.spl.cflow.FastConditionalControlDependenceGraph;
 import soot.spl.cflow.LabeledDirectedGraph;
 import soot.spl.ifds.Constraint;
 
@@ -39,6 +40,12 @@ public class Main {
 		
 		cpdg.print();
 		cpdg.outputGraphViz(inputFile.getName());
+
+		FastConditionalControlDependenceGraph<String, Node> fcpdg = new FastConditionalControlDependenceGraph<String,Node>(graph, builder.getLabelNumberer());
+		
+		fcpdg.print();
+		fcpdg.outputGraphViz(inputFile.getName());
+
 	}
 
 }
