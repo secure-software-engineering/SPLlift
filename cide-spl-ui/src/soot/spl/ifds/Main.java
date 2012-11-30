@@ -1,24 +1,26 @@
 package soot.spl.ifds;
 
+import java.util.BitSet;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.javabdd.BDDFactory;
 
 import org.eclipse.jdt.core.IJavaProject;
 
 import soot.Body;
+import soot.BodyTransformer;
 import soot.Pack;
 import soot.PackManager;
-import soot.Scene;
-import soot.SceneTransformer;
-import soot.SootClass;
-import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
-import soot.options.Options;
-import soot.spl.cflow.ConditionalControlDependenceGraph;
+import soot.spl.cflow.FastConditionalControlDependenceGraph;
 import soot.spl.cflow.LabeledUnitGraph;
+import soot.spl.cflow.baseline.TraditionalControlDependenceGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.util.NumberedString;
+import soot.util.StringNumberer;
 import br.ufal.cideei.features.CIDEFeatureExtracterFactory;
 import br.ufal.cideei.features.IFeatureExtracter;
 import br.ufal.cideei.handlers.AnalysisArgs;
@@ -32,35 +34,52 @@ public class Main {
 		try {
 			String j2me = arg.j2me ? "-j2me -x org. -x com. -x java -ire -allow-phantom-refs " : "";
 			
-			String string = "-cp "+classpath+" -f none -src-prec java -app -w "+j2me+"-main-class "+mainClass+" "+mainClass;
+			String string = "-cp "+classpath+" -f none -src-prec java -app "+j2me+"-main-class "+mainClass+" "+mainClass;
 			String[] args = string.split(" ");
 			
-			if(!arg.includeJDK) Options.v().set_no_bodies_for_excluded(true);
-			
-			Pack pack = PackManager.v().getPack("wjtp");
-			if(pack.get("wjtp.ifds")==null) {
-				pack.add(new Transform("wjtp.ifds", new SceneTransformer() {
+			Pack pack = PackManager.v().getPack("jtp");
+			if(pack.get("jtp.ifds")==null) {
+				pack.add(new Transform("jtp.ifds", new BodyTransformer() {
 
-					protected void internalTransform(String phaseName, @SuppressWarnings("rawtypes") Map options) {
+					protected void internalTransform(Body b, String phaseName, @SuppressWarnings("rawtypes") Map options) {
 						IFeatureExtracter extracter = CIDEFeatureExtracterFactory.getInstance().getExtracter();
 						FeatureModelInstrumentorTransformer bodyTransformer = new FeatureModelInstrumentorTransformer(extracter,classpath);
-						for(SootClass sc: Scene.v().getApplicationClasses()) {
-							for(SootMethod m: sc.getMethods()) {
-								if(m.hasActiveBody()) {
-									Body b = m.getActiveBody();
-									bodyTransformer.transform(b);
-								}
-							}
-						}
-						
-						Constraint.FACTORY = BDDFactory.init(100000, 100000);
-						Constraint.FACTORY.setVarNum(100); //some number high enough to accommodate the max. number of features; ideally we should compute this number 
+						bodyTransformer.transform(b);
 
-						Body mmBody = Scene.v().getMainMethod().getActiveBody();
-						System.err.println(mmBody);
+						Constraint.FACTORY = BDDFactory.init(100000, 100000);
+						Constraint.FACTORY.setVarNum(100); //some number high enough to accommodate the max. number of features; ideally we should compute this number
 						
-						ConditionalControlDependenceGraph<String, Unit> cpdg = new ConditionalControlDependenceGraph<String, Unit>(new LabeledUnitGraph(new ExceptionalUnitGraph(mmBody)));
-						System.err.println();
+						final int NUM=100;
+
+						LabeledUnitGraph graph = new LabeledUnitGraph(new ExceptionalUnitGraph(b));
+						long beforeSPL = System.nanoTime();
+						for(int i=0;i<NUM;i++)
+							new FastConditionalControlDependenceGraph<String, Unit>(graph);
+						long afterSPL = System.nanoTime();
+						System.err.println(afterSPL-beforeSPL);
+						
+						
+						StringNumberer featureNumberer = bodyTransformer.getFeatureNumberer();
+						Set<NumberedString> featuresReachableInCode = new HashSet<NumberedString>();
+						for (NumberedString ns : featureNumberer) {
+							featuresReachableInCode.add(ns);
+						}
+						final Iterable<Set<NumberedString>> powerSet = Powerset.powerset(featuresReachableInCode);
+						long acc = 0;
+						for (Set<NumberedString> config: powerSet) {
+							BitSet bs = new BitSet();
+							for (NumberedString feature: config) {
+								bs.set(feature.getNumber());
+							}							
+							Constraint<String> configConstraint = Constraint.make(bs, featuresReachableInCode);
+							long beforeTraditional = System.nanoTime();
+							for(int i=0;i<NUM;i++)
+								new TraditionalControlDependenceGraph<String,Unit>(graph, configConstraint);
+							long afterTraditional = System.nanoTime();
+							acc += afterTraditional - beforeTraditional;
+						}						
+						System.err.println(acc);
+
 					
 //						final Multimap<SootMethod,Local> initialSeeds = HashMultimap.create();
 //						initialSeeds.put(Scene.v().getMainMethod(), Scene.v().getMainMethod().getActiveBody().getLocals().getFirst());

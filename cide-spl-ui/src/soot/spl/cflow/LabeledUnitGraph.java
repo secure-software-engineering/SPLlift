@@ -26,7 +26,7 @@ public class LabeledUnitGraph implements LabeledDirectedGraph<Unit,Constraint<St
 	public LabeledUnitGraph(DirectedGraph<Unit> unitGraph) {
 		this.ug = unitGraph;
 		computeSuccessorsForDisabledCase();
-		checkWellformedness();
+//		checkWellformedness();
 	}
 	
 	private void checkWellformedness() {
@@ -110,9 +110,6 @@ public class LabeledUnitGraph implements LabeledDirectedGraph<Unit,Constraint<St
 				unitToPredToConstraint.get(entry.getKey()).put(u, entry.getValue());
 			}
 		}
-		
-		System.err.println(unitToSuccToConstraint);
-		System.err.println(unitToPredToConstraint);
 	}
 
 	private void searchSuccessorsUnder(Unit u, Constraint<String> negatedConstraint, Map<Unit, Constraint<String>> succToConstraint, Set<Unit> visited) {
