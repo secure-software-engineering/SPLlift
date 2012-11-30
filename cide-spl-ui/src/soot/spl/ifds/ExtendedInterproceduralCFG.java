@@ -1,14 +1,16 @@
 package soot.spl.ifds;
 
+import heros.InterproceduralCFG;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
 
 import soot.SootMethod;
 import soot.Trap;
 import soot.Unit;
 import soot.jimple.ThrowStmt;
-import soot.jimple.interproc.ifds.InterproceduralCFG;
 import soot.tagkit.TryCatchTag;
 
 public class ExtendedInterproceduralCFG implements InterproceduralCFG<Unit,SootMethod> {

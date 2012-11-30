@@ -1,16 +1,18 @@
 package soot.spl.ifds;
 
+import heros.FlowFunction;
+import heros.FlowFunctions;
+import heros.IFDSTabulationProblem;
+import heros.flowfunc.Identity;
+import heros.flowfunc.KillAll;
+import heros.solver.IFDSSolver;
+
 import java.util.BitSet;
 import java.util.Set;
 
+
 import soot.SootMethod;
 import soot.Unit;
-import soot.jimple.interproc.ifds.FlowFunction;
-import soot.jimple.interproc.ifds.FlowFunctions;
-import soot.jimple.interproc.ifds.IFDSTabulationProblem;
-import soot.jimple.interproc.ifds.flowfunc.Identity;
-import soot.jimple.interproc.ifds.flowfunc.KillAll;
-import soot.jimple.interproc.ifds.solver.IFDSSolver;
 import soot.tagkit.Host;
 import br.ufal.cideei.soot.instrument.FeatureTag;
 

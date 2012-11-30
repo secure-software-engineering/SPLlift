@@ -65,7 +65,7 @@ public class Main {
 //						final Multimap<SootMethod,Local> initialSeeds = HashMultimap.create();
 //						initialSeeds.put(Scene.v().getMainMethod(), Scene.v().getMainMethod().getActiveBody().getLocals().getFirst());
 //												
-////						IFDSTabulationProblem<Unit,Value,SootMethod> problem = new soot.jimple.interproc.ifds.problems.IFDSUninitializedVariables();
+////						IFDSTabulationProblem<Unit,Value,SootMethod> problem = new heros.problems.IFDSUninitializedVariables();
 ////						
 ////						
 ////						SPLIFDSSolver<Value,SootMethod> solver = new SPLIFDSSolver<Value,SootMethod>(problem,alloyFilePath,numFeaturesPresent);	
@@ -83,10 +83,10 @@ public class Main {
 ////						System.err.println();
 ////						System.err.println(Constraint.FACTORY.getCacheStats());
 //						
-////						IFDSTabulationProblem<Unit, ?, SootMethod> problem = new soot.jimple.interproc.ifds.problems.IFDSReachingDefinitions();
+////						IFDSTabulationProblem<Unit, ?, SootMethod> problem = new heros.problems.IFDSReachingDefinitions();
 //						IFDSTabulationProblem<Unit, ?, SootMethod, ?> problem;
 //						try {
-//							Class<IFDSTabulationProblem<Unit, ?, SootMethod, ?>> clazz = (Class<IFDSTabulationProblem<Unit, ?, SootMethod, ?>>) Class.forName("soot.jimple.interproc.ifds.problems."+arg.analysisClassName);
+//							Class<IFDSTabulationProblem<Unit, ?, SootMethod, ?>> clazz = (Class<IFDSTabulationProblem<Unit, ?, SootMethod, ?>>) Class.forName("heros.problems."+arg.analysisClassName);
 //							Constructor<?> constructor = clazz.getDeclaredConstructors()[0];
 //							problem = (IFDSTabulationProblem<Unit, ?, SootMethod, ?>) constructor.newInstance( new JimpleBasedInterproceduralCFG() );
 //						} catch (Exception e) {

@@ -1,5 +1,15 @@
 package soot.spl.ifds;
 
+import heros.EdgeFunction;
+import heros.EdgeFunctions;
+import heros.FlowFunction;
+import heros.FlowFunctions;
+import heros.IFDSTabulationProblem;
+import heros.JoinLattice;
+import heros.ZeroedFlowFunctions;
+import heros.edgefunc.EdgeIdentity;
+import heros.solver.IDESolver;
+
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,18 +17,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+
 import soot.SootMethod;
 import soot.Unit;
-import soot.jimple.interproc.ifds.EdgeFunction;
-import soot.jimple.interproc.ifds.EdgeFunctions;
-import soot.jimple.interproc.ifds.FlowFunction;
-import soot.jimple.interproc.ifds.FlowFunctions;
-import soot.jimple.interproc.ifds.IFDSTabulationProblem;
-import soot.jimple.interproc.ifds.JoinLattice;
-import soot.jimple.interproc.ifds.ZeroedFlowFunctions;
-import soot.jimple.interproc.ifds.edgefunc.EdgeIdentity;
-import soot.jimple.interproc.ifds.solver.IDESolver;
-import soot.jimple.interproc.ifds.template.DefaultIDETabulationProblem;
+import soot.jimple.toolkits.ide.DefaultJimpleIDETabulationProblem;
 import soot.tagkit.Host;
 import br.ufal.cideei.soot.instrument.FeatureTag;
 
@@ -34,7 +36,7 @@ public class SPLIFDSSolver<D> extends IDESolver<Unit,D,SootMethod,Constraint<Str
 	 * @param numFeaturesPresent 
 	 */
 	public SPLIFDSSolver(final IFDSTabulationProblem<Unit,D,SootMethod,ExtendedInterproceduralCFG> ifdsProblem, final FeatureModelContext fmContext, final boolean useFMInEdgeComputations) {
-		super(new DefaultIDETabulationProblem<D,Constraint<String>,ExtendedInterproceduralCFG>(new ExtendedInterproceduralCFG(ifdsProblem.interproceduralCFG())) {
+		super(new DefaultJimpleIDETabulationProblem<D,Constraint<String>,ExtendedInterproceduralCFG>(new ExtendedInterproceduralCFG(ifdsProblem.interproceduralCFG())) {
 
 			public FlowFunctions<Unit,D,SootMethod> createFlowFunctionsFactory() {
 				return new FlowFunctions<Unit,D,SootMethod>() {

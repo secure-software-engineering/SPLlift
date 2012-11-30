@@ -1,5 +1,8 @@
 package soot.spl.ifds;
 
+import heros.IFDSTabulationProblem;
+import heros.solver.IFDSSolver;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,12 +22,11 @@ import net.sf.javabdd.BDDFactory;
 
 import org.eclipse.jdt.core.IJavaProject;
 
+
 import soot.Local;
 import soot.Scene;
 import soot.SootMethod;
 import soot.Unit;
-import soot.jimple.interproc.ifds.IFDSTabulationProblem;
-import soot.jimple.interproc.ifds.solver.IFDSSolver;
 import soot.options.Options;
 import soot.util.NumberedString;
 import br.ufal.cideei.handlers.AnalysisArgs;
