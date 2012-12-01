@@ -5,6 +5,7 @@ import graphviz.GraphViz;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import soot.spl.ifds.Constraint;
@@ -39,11 +40,12 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 	protected void compute() {
 		//initialize map
 		unitToPostDomToConstraint = new HashMap<N,Map<N,Constraint<T>>>();
+		List<N> tails = cfg.getTails();
 		for(N u: cfg) {
 			HashMap<N, Constraint<T>> newMap = new HashMap<N, Constraint<T>>();
 			unitToPostDomToConstraint.put(u, newMap);
 			for(N u2: cfg) {
-				Constraint<T> c = (cfg.getTails().contains(u) && u!=u2) ?
+				Constraint<T> c = (tails.contains(u) && u!=u2) ?
 					Constraint.<T>falseValue() : Constraint.<T>trueValue();
 				newMap.put(u2, c);					
 			}
@@ -53,8 +55,9 @@ public class ConditionalPostdominators<T,N> implements Iterable<N>{
 		do {
 			changed = false;
 			for(N n: cfg) {
-				if(cfg.getTails().contains(n)) continue;
+				if(tails.contains(n)) continue;
 				for(N x: cfg) {
+					if(tails.contains(x)) continue;
 					if(n==x) {
 						changed |= updateConstraint(n, x, Constraint.<T>trueValue());
 					} else {
