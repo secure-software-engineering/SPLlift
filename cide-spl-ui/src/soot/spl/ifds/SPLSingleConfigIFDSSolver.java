@@ -106,6 +106,10 @@ public class SPLSingleConfigIFDSSolver<D> extends IFDSSolver<Unit,D,SootMethod,E
 			public D zeroValue() {
 				return ifdsProblem.zeroValue();
 			}
+
+			public boolean followReturnsPastSeeds() {
+				return ifdsProblem.followReturnsPastSeeds();
+			}
 		});
 	}
 
