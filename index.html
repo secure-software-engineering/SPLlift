@@ -1,35 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>SPLlift by secure-software-engineering</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <title>SPLlift by secure-software-engineering</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>SPLlift</h1>
-        <p>Highly efficient inter-procedural data-flow analysis for software product lines</p>
-        <p class="view"><a href="https://github.com/secure-software-engineering/SPLlift">View the Project on GitHub <small>secure-software-engineering/SPLlift</small></a></p>
-        <ul>
-          <li><a href="https://github.com/secure-software-engineering/SPLlift/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/secure-software-engineering/SPLlift/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/secure-software-engineering/SPLlift">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>SPLlift</h1>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>SPLlift</h1>
+          <h2>Highly efficient inter-procedural data-flow analysis for software product lines</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/secure-software-engineering/SPLlift/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/secure-software-engineering/SPLlift/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/secure-software-engineering/SPLlift" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>SPLlift</h1>
 
 <p>SPLlift is an approach that lets you automatically reuse inter-procedural static data-flow analyses implemented in the IFDS framework also for entire Software Product Lines (SPLs). If, for normal programs, the analysis reports that a piece of analysis information may or may not hold at a given statement, the SPL-version reports a Boolean constraint telling you under which feature combinations this fact could hold at that statement. This all can be done without having to change a single line of code on the side of the client analysis.</p>
+
+<h2>Who are the developers of SPLlift?</h2>
+
+<p>SPLlift is a joint development of Eric Bodden Claus Brabrand, Tarsis Toledo, Marcio Ribeiro, Paulo Borba and Mira Mezini. It is currently maintained by <a href="http://www.bodden.de/">Eric Bodden</a>.</p>
+
+<h1>SPLlift</h1>
+
+<p>SPLlift is an approach that lets you automatically reuse inter-procedural static data-flow analyses implemented in the IFDS framework also for entire Software Product Lines (SPLs). If, for normal programs, the analysis reports that a piece of analysis information may or may not hold at a given statement, the SPL-version reports a Boolean constraint telling you under which feature combinations this fact could hold at that statement. This all can be done without having to change a single line of code on the side of the client analysis.</p>
+
+<p>For example, assume a taint analysis that reports cases in which the return value of <code>password()</code> flows into <code>print(..)</code>. For the following product line, SPLlift would report that such a case can occur if and only if <code>F</code> and <code>H</code> are disabled and <code>G</code> is enabled:</p>
+
+<p><img src="/website/screenshot.png" alt="Screenshot of CIDE" title="Screenshot of CIDE"></p>
 
 <h2>Who are the developers of SPLlift?</h2>
 
@@ -48,18 +64,45 @@
 <h2>What is IFDS/IDE?</h2>
 
 <p><a href="http://dx.doi.org/10.1145/199448.199462">IFDS</a> is a general framework for solving inter-procedural, finite, distributive subset problems in a flow-sensitive, fully context-sensitive manner. From a user's perspective, IFDS allows static program analysis in a template-driven manner. Users simply define flow functions for an analysis problem but don't need to worry about solving the analysis problem. The latter is automatically taken care of by the solver, in this case by <a href="https://github.com/Sable/heros/">Heros</a>.
-<a href="http://dx.doi.org/10.1016/0304-3975(96)00072-2">IDE</a> is an extension of IFDS that allows more expressive computations. Heros implements an IDE solver and supports IFDS problems as special cases of IDE. SPLlift replaces this "adapter" by a more expressive one that automatically tracks feature constraints.</p>
+<a href="http://dx.doi.org/10.1016/0304-3975(96)00072-2">IDE</a> is an extension of IFDS that allows more expressive computations. Heros implements an IDE solver and supports IFDS problems as special cases of IDE. SPLlift replaces this "adapter" by a more expressive one that automatically tracks feature constraints as shown in this figure:</p>
+
+<p><img src="/website/spllift-schema.png" alt="SPLLift schema" title="SPLLift schema"></p>
 
 <h2>How can I contribute to SPLlift?</h2>
 
 <p>Contributions are more than welcome! It is easiest to fork the project on Github. Then make your modifications on the fork and send us a pull request. This will allow us easy re-integration.</p>
-      </section>
+
+<h2>Why is SPLlift called SPLlift?</h2>
+
+<p>It is called SPLlift because it allows existing analyses that are designed for "normal Java programs" to be lifted to analyses that operate on entire software product lines.</p>
+
+<h2>Are there any publications on SPLlift?</h2>
+
+<p>Yes, there are:</p>
+
+<p><a href="http://www.bodden.de/pubs/btr+12transparent.pdf">Transparent and Efficient Reuse of IFDS-based Static Program Analyses for Software Product Lines</a> (Eric Bodden, Társis Tolêdo, Márcio Ribeiro, Claus Brabrand, Paulo Borba, Mira Mezini), Technical report TUD-CS-2012-0239, EC SPRIDE, Technische Universität Darmstadt, 2012.</p>
+
+<h2>What is IFDS/IDE?</h2>
+
+<p><a href="http://dx.doi.org/10.1145/199448.199462">IFDS</a> is a general framework for solving inter-procedural, finite, distributive subset problems in a flow-sensitive, fully context-sensitive manner. From a user's perspective, IFDS allows static program analysis in a template-driven manner. Users simply define flow functions for an analysis problem but don't need to worry about solving the analysis problem. The latter is automatically taken care of by the solver, in this case by <a href="https://github.com/Sable/heros/">Heros</a>.
+<a href="http://dx.doi.org/10.1016/0304-3975(96)00072-2">IDE</a> is an extension of IFDS that allows more expressive computations. Heros implements an IDE solver and supports IFDS problems as special cases of IDE. SPLlift replaces this "adapter" by a more expressive one that automatically tracks feature constraints.</p>
+
+<h2>Which dependencies does SPLlift have?</h2>
+
+<p>SPLlift is based on <a href="https://github.com/Sable/heros/">Heros</a>, <a href="https://github.com/Sable/soot">Soot</a>, <a href="http://wwwiti.cs.uni-magdeburg.de/iti_db/research/cide/">CIDE</a> and <a href="http://javabdd.sourceforge.net/">JavaBDD</a>. Thanks to the developers of those tools for making them available!</p>
+
+<h2>How can I contribute to SPLlift?</h2>
+
+<p>Contributions are more than welcome! It is easiest to fork the project on Github. Then make your modifications on the fork and send us a pull request. This will allow us easy re-integration.</p>
+        </section>
+
+        <footer>
+          SPLlift is maintained by <a href="https://github.com/secure-software-engineering">secure-software-engineering</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
     </div>
-    <footer>
-      <p>Project maintained by <a href="https://github.com/secure-software-engineering">secure-software-engineering</a></p>
-      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
-    </footer>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
   </body>
 </html>
