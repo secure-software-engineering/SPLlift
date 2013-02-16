@@ -11,7 +11,7 @@ SPLlift is an approach that lets you automatically reuse inter-procedural static
 
 For example, assume a taint analysis that reports cases in which the return value of `password()` flows into `print(..)`. For the following product line, SPLlift would report that such a case can occur if and only if `F` and `H` are disabled and `G` is enabled:
 
-![Screenshot of CIDE](/website/screenshot.png "Screenshot of CIDE")
+![Screenshot of CIDE](website/screenshot.png "Screenshot of CIDE")
 
 Who are the developers of SPLlift?
 ----------------------------------
@@ -32,7 +32,7 @@ What is IFDS/IDE?
 [IFDS][1] is a general framework for solving inter-procedural, finite, distributive subset problems in a flow-sensitive, fully context-sensitive manner. From a user's perspective, IFDS allows static program analysis in a template-driven manner. Users simply define flow functions for an analysis problem but don't need to worry about solving the analysis problem. The latter is automatically taken care of by the solver, in this case by [Heros][3].
 [IDE][2] is an extension of IFDS that allows more expressive computations. Heros implements an IDE solver and supports IFDS problems as special cases of IDE. SPLlift replaces this "adapter" by a more expressive one that automatically tracks feature constraints as shown in this figure:
 
-![SPLLift schema](/website/spllift-schema.png "SPLLift schema")
+![SPLLift schema](website/spllift-schema.png "SPLLift schema")
 
 How can I contribute to SPLlift?
 --------------------------------
