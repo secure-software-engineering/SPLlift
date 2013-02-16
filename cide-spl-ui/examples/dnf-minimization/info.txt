@@ -1,0 +1,8 @@
+This example shows why it is necessary to minimize the DNF. Without minimization,
+we would get the following:
+
+y=[[pos=[], neg=[CP_Time]], [pos=[CP_Time], neg=[]]]
+
+With minimization, we will get:
+
+y = full-configuration
