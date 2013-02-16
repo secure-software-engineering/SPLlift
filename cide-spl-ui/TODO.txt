@@ -1,1 +1,0 @@
-- Replace AllTop by explicit SPL function (for "FALSE", and AllBottom by a function for "true")
