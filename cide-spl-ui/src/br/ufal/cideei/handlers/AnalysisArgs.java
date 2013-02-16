@@ -21,7 +21,7 @@ public class AnalysisArgs {
 	
 	public boolean j2me;
 	
-	public boolean onlyLifted = false;
+	public boolean onlyLifted = true;
 	
 	public boolean determineValidConfigsUpfront;
 
