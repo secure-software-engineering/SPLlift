@@ -4,7 +4,7 @@ SPLlift is an approach that lets you automatically reuse inter-procedural static
 
 Who are the developers of SPLlift?
 ----------------------------------
-SPLlift is a joint development of Eric Bodden Claus Brabrand, Tarsis Toledo, Marcio Ribeiro, Paulo Borba and Mira Mezini. It is currently maintained by [Eric Bodden][2].
+SPLlift is a joint development of Eric Bodden Claus Brabrand, Tarsis Toledo, Marcio Ribeiro, Paulo Borba and Mira Mezini. It is currently maintained by [Eric Bodden][5].
 
 Why is SPLlift called SPLlift?
 ------------------------------
@@ -29,3 +29,4 @@ Contributions are more than welcome! It is easiest to fork the project on Github
 [2]: http://dx.doi.org/10.1016/0304-3975(96)00072-2
 [3]: https://github.com/Sable/heros/
 [4]: http://www.bodden.de/pubs/btr+12transparent.pdf
+[5]: http://www.bodden.de/
