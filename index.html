@@ -45,7 +45,7 @@
 
 <p>For example, assume a taint analysis that reports cases in which the return value of <code>password()</code> flows into <code>print(..)</code>. For the following product line, SPLlift would report that such a case can occur if and only if <code>F</code> and <code>H</code> are disabled and <code>G</code> is enabled:</p>
 
-<p><img src="/website/screenshot.png" alt="Screenshot of CIDE" title="Screenshot of CIDE"></p>
+<p><img src="website/screenshot.png" alt="Screenshot of CIDE" title="Screenshot of CIDE"></p>
 
 <h2>Who are the developers of SPLlift?</h2>
 
@@ -66,7 +66,7 @@
 <p><a href="http://dx.doi.org/10.1145/199448.199462">IFDS</a> is a general framework for solving inter-procedural, finite, distributive subset problems in a flow-sensitive, fully context-sensitive manner. From a user's perspective, IFDS allows static program analysis in a template-driven manner. Users simply define flow functions for an analysis problem but don't need to worry about solving the analysis problem. The latter is automatically taken care of by the solver, in this case by <a href="https://github.com/Sable/heros/">Heros</a>.
 <a href="http://dx.doi.org/10.1016/0304-3975(96)00072-2">IDE</a> is an extension of IFDS that allows more expressive computations. Heros implements an IDE solver and supports IFDS problems as special cases of IDE. SPLlift replaces this "adapter" by a more expressive one that automatically tracks feature constraints as shown in this figure:</p>
 
-<p><img src="/website/spllift-schema.png" alt="SPLLift schema" title="SPLLift schema"></p>
+<p><img src="website/spllift-schema.png" alt="SPLLift schema" title="SPLLift schema"></p>
 
 <h2>How can I contribute to SPLlift?</h2>
 
