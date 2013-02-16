@@ -25,7 +25,7 @@ public class AnalysisArgs {
 	
 	public boolean determineValidConfigsUpfront;
 
-	public String analysisClassName = "IFDSUninitializedVariables"; //"IFDSUninitializedVariables";
+	public String analysisClassName = "IFDSLocalInfoFlow"; //"IFDSUninitializedVariables";
 	
 	private AnalysisArgs(boolean headless) {
 		//set general defaults
