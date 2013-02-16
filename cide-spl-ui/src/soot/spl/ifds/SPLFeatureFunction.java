@@ -1,8 +1,8 @@
 package soot.spl.ifds;
 
-import soot.jimple.interproc.ifds.EdgeFunction;
-import soot.jimple.interproc.ifds.edgefunc.AllTop;
-import soot.jimple.interproc.ifds.edgefunc.EdgeIdentity;
+import heros.EdgeFunction;
+import heros.edgefunc.AllTop;
+import heros.edgefunc.EdgeIdentity;
 
 public class SPLFeatureFunction implements EdgeFunction<Constraint<String>> {
 	

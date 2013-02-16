@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry combineaccessrules="false" kind="src" path="/soot"/>
 	<classpathentry exported="true" kind="lib" path="lib/guava-12.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/generator.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/overseer.jar"/>
 	<classpathentry kind="lib" path="lib/alloy4.jar"/>
 	<classpathentry kind="lib" path="lib/prop4j.jar"/>
+	<classpathentry kind="lib" path="lib/soot-trunk.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry excluding="br/ufal/cideei/soot/count/|br/ufal/cideei/soot/analyses/wholeline/|br/ufal/cideei/soot/analyses/reachingdefs/|br/ufal/cideei/soot/analyses/uninitvars/|br/ufal/cideei/soot/analyses/initvars/LazyLiftedInitializedVariablesAnalysis.java" kind="src" path="src"/>

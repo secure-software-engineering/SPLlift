@@ -1,5 +1,8 @@
 package soot.spl.ifds;
 
+import heros.IFDSTabulationProblem;
+import heros.solver.IFDSSolver;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -23,8 +26,6 @@ import soot.Local;
 import soot.Scene;
 import soot.SootMethod;
 import soot.Unit;
-import soot.jimple.interproc.ifds.IFDSTabulationProblem;
-import soot.jimple.interproc.ifds.solver.IFDSSolver;
 import soot.options.Options;
 import soot.util.NumberedString;
 import br.ufal.cideei.handlers.AnalysisArgs;
@@ -119,13 +120,13 @@ public class PerformanceTestDriver {
 			{
 				System.err.println("Performing dry run to fully construct the ICFG upfront...");
 				SPLIFDSSolver<Local> splSolver = new SPLIFDSSolver(problem,fmContext,args.eagerPruning);	
-				splSolver.solve(0);
+				splSolver.solve();
 			}
 			
 			SPLIFDSSolver<Local> splSolver = new SPLIFDSSolver(problem,fmContext,args.eagerPruning);	
 			System.err.println("Starting SPL solver...");
 			long before = System.currentTimeMillis();
-			splSolver.solve(0);
+			splSolver.solve();
 			splDuration = System.currentTimeMillis()-before;
 	
 			if(debug)
@@ -223,7 +224,7 @@ public class PerformanceTestDriver {
 						if(debug)
 							System.err.println("Starting standard IFDS solver for configuration "+bs+"...");
 						before = System.currentTimeMillis();
-						solver.solve(0);
+						solver.solve();
 						long duration = System.currentTimeMillis()-before;
 						log("Standard solving for configuration "+i+" took;"+duration);
 						log("Standard flow functions constructed;"+solver.flowFunctionConstructionCount);
