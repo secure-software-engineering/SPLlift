@@ -84,7 +84,7 @@ public class Main {
 //						IFDSTabulationProblem<Unit, ?, SootMethod> problem = new soot.jimple.interproc.ifds.problems.IFDSReachingDefinitions();
 						IFDSTabulationProblem<Unit, ?, SootMethod, ?> problem;
 						try {
-							Class<IFDSTabulationProblem<Unit, ?, SootMethod, ?>> clazz = (Class<IFDSTabulationProblem<Unit, ?, SootMethod, ?>>) Class.forName("soot.jimple.interproc.ifds.problems."+arg.analysisClassName);
+							Class<IFDSTabulationProblem<Unit, ?, SootMethod, ?>> clazz = (Class<IFDSTabulationProblem<Unit, ?, SootMethod, ?>>) Class.forName("soot.jimple.toolkits.ide.exampleproblems."+arg.analysisClassName);
 							Constructor<?> constructor = clazz.getDeclaredConstructors()[0];
 							problem = (IFDSTabulationProblem<Unit, ?, SootMethod, ?>) constructor.newInstance( new JimpleBasedInterproceduralCFG() );
 						} catch (Exception e) {
