@@ -64,6 +64,26 @@ Which dependencies does SPLlift have?
 -------------------------------------
 SPLlift is based on [Heros][3], [Soot][6], [CIDE][7] and [JavaBDD][8]. Thanks to the developers of those tools for making them available!
 
+How do I build and run SPLlift?
+-------------------------------
+Issue the following commands to clone the repositories of SPLlift and its dependencies:
+<pre>
+git clone https://github.com/Sable/heros.git
+git clone https://github.com/Sable/soot.git
+git clone https://github.com/Sable/jasmin.git
+git clone https://github.com/secure-software-engineering/SPLlift.git
+</pre>
+This should give you four folders (i.e., four local git repositories) with "develop" branches checked out for each repository.
+
+Second, install [CIDE][7] in your Eclipse IDE by using the following update site:
+<pre>
+http://wwwiti.cs.uni-magdeburg.de/iti_db/research/cide/update/
+</pre>
+
+Open eclipse and (we use version 3.7.1) import all projects from the above four folders into your workspace. The projects should build right out of the box. You can test SPLlift through an eclipse run configuration.
+
+Do you have questions? Please let us know!
+
 How can I contribute to SPLlift?
 --------------------------------
 Contributions are more than welcome! It is easiest to fork the project on Github. Then make your modifications on the fork and send us a pull request. This will allow us easy re-integration.
