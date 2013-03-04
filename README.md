@@ -27,6 +27,8 @@ Are there any publications on SPLlift?
 --------------------------------------
 Yes, there are:
 
+[SPLlift – Statically Analyzing Software Product Lines in Minutes Instead of Years][9] (Eric Bodden, Mira Mezini, Claus Brabrand, Társis Tolêdo, Márcio Ribeiro, Paulo Borba), In ACM SIGPLAN Conference on Programming Language Design and Implementation (PLDI 2013), 2013.
+
 [Transparent and Efficient Reuse of IFDS-based Static Program Analyses for Software Product Lines][4] (Eric Bodden, Társis Tolêdo, Márcio Ribeiro, Claus Brabrand, Paulo Borba, Mira Mezini), Technical report TUD-CS-2012-0239, EC SPRIDE, Technische Universität Darmstadt, 2012.
 
 What is IFDS/IDE?
@@ -96,3 +98,4 @@ Contributions are more than welcome! It is easiest to fork the project on Github
 [6]: https://github.com/Sable/soot
 [7]: http://wwwiti.cs.uni-magdeburg.de/iti_db/research/cide/
 [8]: http://javabdd.sourceforge.net/
+[9]: http://www.bodden.de/pubs/bmb+13spllift.pdf
