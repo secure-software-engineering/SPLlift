@@ -37,14 +37,6 @@
 
 <p>SPLlift is an approach that lets you automatically reuse inter-procedural static data-flow analyses implemented in the IFDS framework also for entire Software Product Lines (SPLs). If, for normal programs, the analysis reports that a piece of analysis information may or may not hold at a given statement, the SPL-version reports a Boolean constraint telling you under which feature combinations this fact could hold at that statement. This all can be done without having to change a single line of code on the side of the client analysis.</p>
 
-<h2>Who are the developers of SPLlift?</h2>
-
-<p>SPLlift is a joint development of Eric Bodden Claus Brabrand, Tarsis Toledo, Marcio Ribeiro, Paulo Borba and Mira Mezini. It is currently maintained by <a href="http://www.bodden.de/">Eric Bodden</a>.</p>
-
-<h1>SPLlift</h1>
-
-<p>SPLlift is an approach that lets you automatically reuse inter-procedural static data-flow analyses implemented in the IFDS framework also for entire Software Product Lines (SPLs). If, for normal programs, the analysis reports that a piece of analysis information may or may not hold at a given statement, the SPL-version reports a Boolean constraint telling you under which feature combinations this fact could hold at that statement. This all can be done without having to change a single line of code on the side of the client analysis.</p>
-
 <p>For example, assume a taint analysis that reports cases in which the return value of <code>password()</code> flows into <code>print(..)</code>. For the following product line, SPLlift would report that such a case can occur if and only if <code>F</code> and <code>H</code> are disabled and <code>G</code> is enabled:</p>
 
 <p><img src="website/screenshot.png" alt="Screenshot of CIDE" title="Screenshot of CIDE"></p>
@@ -80,20 +72,32 @@
 
 <p>It is called SPLlift because it allows existing analyses that are designed for "normal Java programs" to be lifted to analyses that operate on entire software product lines.</p>
 
-<h2>Are there any publications on SPLlift?</h2>
-
-<p>Yes, there are:</p>
-
-<p><a href="http://www.bodden.de/pubs/btr+12transparent.pdf">Transparent and Efficient Reuse of IFDS-based Static Program Analyses for Software Product Lines</a> (Eric Bodden, Társis Tolêdo, Márcio Ribeiro, Claus Brabrand, Paulo Borba, Mira Mezini), Technical report TUD-CS-2012-0239, EC SPRIDE, Technische Universität Darmstadt, 2012.</p>
-
-<h2>What is IFDS/IDE?</h2>
-
-<p><a href="http://dx.doi.org/10.1145/199448.199462">IFDS</a> is a general framework for solving inter-procedural, finite, distributive subset problems in a flow-sensitive, fully context-sensitive manner. From a user's perspective, IFDS allows static program analysis in a template-driven manner. Users simply define flow functions for an analysis problem but don't need to worry about solving the analysis problem. The latter is automatically taken care of by the solver, in this case by <a href="https://github.com/Sable/heros/">Heros</a>.
-<a href="http://dx.doi.org/10.1016/0304-3975(96)00072-2">IDE</a> is an extension of IFDS that allows more expressive computations. Heros implements an IDE solver and supports IFDS problems as special cases of IDE. SPLlift replaces this "adapter" by a more expressive one that automatically tracks feature constraints.</p>
-
 <h2>Which dependencies does SPLlift have?</h2>
 
 <p>SPLlift is based on <a href="https://github.com/Sable/heros/">Heros</a>, <a href="https://github.com/Sable/soot">Soot</a>, <a href="http://wwwiti.cs.uni-magdeburg.de/iti_db/research/cide/">CIDE</a> and <a href="http://javabdd.sourceforge.net/">JavaBDD</a>. Thanks to the developers of those tools for making them available!</p>
+
+<h2>How do I build and run SPLlift?</h2>
+
+<p>Issue the following commands to clone the repositories of SPLlift and its dependencies:</p>
+
+<pre>
+git clone https://github.com/Sable/heros.git
+git clone https://github.com/Sable/soot.git
+git clone https://github.com/Sable/jasmin.git
+git clone https://github.com/secure-software-engineering/SPLlift.git
+</pre>
+
+<p>This should give you four folders (i.e., four local git repositories) with "develop" branches checked out for each repository.</p>
+
+<p>Second, install <a href="http://wwwiti.cs.uni-magdeburg.de/iti_db/research/cide/">CIDE</a> in your Eclipse IDE by using the following update site:</p>
+
+<pre>
+http://wwwiti.cs.uni-magdeburg.de/iti_db/research/cide/update/
+</pre>
+
+<p>Open eclipse and (we use version 3.7.1) import all projects from the above four folders into your workspace. The projects should build right out of the box. You can test SPLlift through an eclipse run configuration.</p>
+
+<p>Do you have questions? Please let us know!</p>
 
 <h2>How can I contribute to SPLlift?</h2>
 
