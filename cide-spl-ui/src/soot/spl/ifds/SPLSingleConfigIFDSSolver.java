@@ -8,6 +8,7 @@ import heros.flowfunc.KillAll;
 import heros.solver.IFDSSolver;
 
 import java.util.BitSet;
+import java.util.Map;
 import java.util.Set;
 
 import soot.SootMethod;
@@ -98,7 +99,7 @@ public class SPLSingleConfigIFDSSolver<D> extends IFDSSolver<Unit,D,SootMethod,E
 				return new ExtendedInterproceduralCFG(ifdsProblem.interproceduralCFG());
 			}
 
-			public Set<Unit> initialSeeds() {
+			public Map<Unit,Set<D>> initialSeeds() {
 				return ifdsProblem.initialSeeds();
 			}
 

@@ -72,7 +72,7 @@ public class SPLIFDSSolver<D> extends IDESolver<Unit,D,SootMethod,Constraint<Str
 				};
 			}
 			
-			public Set<Unit> initialSeeds() {
+			public Map<Unit,Set<D>> initialSeeds() {
 				return ifdsProblem.initialSeeds();
 			}
 
