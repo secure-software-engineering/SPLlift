@@ -2,6 +2,7 @@ package soot.spl.ifds;
 
 import heros.InterproceduralCFG;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -72,11 +73,11 @@ public class ExtendedInterproceduralCFG implements InterproceduralCFG<Unit,SootM
 		return delegate.getMethodOf(n);
 	}
 
-	public Set<SootMethod> getCalleesOfCallAt(Unit n) {
+	public Collection<SootMethod> getCalleesOfCallAt(Unit n) {
 		return delegate.getCalleesOfCallAt(n);
 	}
 
-	public Set<Unit> getCallersOf(SootMethod m) {
+	public Collection<Unit> getCallersOf(SootMethod m) {
 		return delegate.getCallersOf(m);
 	}
 
@@ -84,11 +85,11 @@ public class ExtendedInterproceduralCFG implements InterproceduralCFG<Unit,SootM
 		return delegate.getCallsFromWithin(m);
 	}
 
-	public Set<Unit> getStartPointsOf(SootMethod m) {
+	public Collection<Unit> getStartPointsOf(SootMethod m) {
 		return delegate.getStartPointsOf(m);
 	}
 
-	public List<Unit> getReturnSitesOfCallAt(Unit n) {
+	public Collection<Unit> getReturnSitesOfCallAt(Unit n) {
 		return delegate.getReturnSitesOfCallAt(n);
 	}
 
