@@ -43,9 +43,6 @@ Contributions are more than welcome! It is easiest to fork the project on Github
 [3]: https://github.com/Sable/heros/
 [4]: http://www.bodden.de/pubs/btr+12transparent.pdf
 [5]: http://www.bodden.de/
-Why is SPLlift called SPLlift?
-------------------------------
-It is called SPLlift because it allows existing analyses that are designed for "normal Java programs" to be lifted to analyses that operate on entire software product lines.
 
 Which dependencies does SPLlift have?
 -------------------------------------
@@ -70,10 +67,6 @@ http://wwwiti.cs.uni-magdeburg.de/iti_db/research/cide/update/
 Open eclipse and (we use version 3.7.1) import all projects from the above four folders into your workspace. The projects should build right out of the box. You can test SPLlift through an eclipse run configuration.
 
 Do you have questions? Please let us know!
-
-How can I contribute to SPLlift?
---------------------------------
-Contributions are more than welcome! It is easiest to fork the project on Github. Then make your modifications on the fork and send us a pull request. This will allow us easy re-integration.
 
 [1]: http://dx.doi.org/10.1145/199448.199462
 [2]: http://dx.doi.org/10.1016/0304-3975(96)00072-2
